@@ -195,7 +195,7 @@ class _ColorSuckerState extends State<ColorSucker> {
           left: _magnifierPosition.dx,
           top: _magnifierPosition.dy,
           child: ClipRRect(
-            borderRadius: _radius,
+            borderRadius: _radius ?? BorderRadius.zero,
             child: GestureDetector(
               onPanStart: _onPanStart,
               onPanEnd: _onPanEnd,
