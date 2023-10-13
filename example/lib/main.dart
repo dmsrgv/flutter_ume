@@ -13,13 +13,26 @@ import 'package:flutter_ume_kit_device/flutter_ume_kit_device.dart';
 import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
+import 'package:analytics_inspector/analytics_inspector.dart';
 import 'package:flutter_ume_kit_channel_monitor/flutter_ume_kit_channel_monitor.dart';
 
-final Dio dio = Dio()..options = BaseOptions(connectTimeout: 10000);
+final Dio dio = Dio()
+  ..options = BaseOptions(connectTimeout: Duration(seconds: 10));
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-void main() => runApp(const UMEApp());
+class ExampleAnalyticsSender implements AnalyticsSender {
+  @override
+  Future<void> handleEvent(AnalyticsSenderEvent event) {
+    throw UnimplementedError();
+  }
+}
+
+final AnalyticsSender analyticsSender = ExampleAnalyticsSender();
+
+void main() async {
+  runApp(const UMEApp());
+}
 
 class UMEApp extends StatefulWidget {
   const UMEApp({Key? key}) : super(key: key);
@@ -37,6 +50,9 @@ class _UMEAppState extends State<UMEApp> {
     });
     if (kDebugMode) {
       PluginManager.instance
+        ..register(AnalyticsInspector(
+          analyticsSender: analyticsSender,
+        ))
         ..register(WidgetInfoInspector())
         ..register(WidgetDetailInspector())
         ..register(ColorSucker())
