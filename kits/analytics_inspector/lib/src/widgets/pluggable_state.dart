@@ -4,7 +4,7 @@
 ///
 import 'dart:convert';
 
-import 'package:analytics_inspector/src/models/event.dart';
+import 'package:analytics_inspector/src/models/aevent.dart';
 import 'package:flutter/material.dart';
 import '../instances.dart';
 import '../pluggable.dart';
@@ -76,7 +76,7 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
   }
 
   Widget _itemList(BuildContext context) {
-    final List<Event<dynamic>> events =
+    final List<AEvent> events =
         InspectorInstance.analyticsContainer.pagedEvents;
     final int length = events.length;
     if (length > 0) {
@@ -85,11 +85,11 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (_, int index) {
-                final Event<dynamic> event = events[index];
+                final AEvent event = events[index];
                 if (index == length - 2) {
                   InspectorInstance.analyticsContainer.loadNextPage();
                 }
-                return _ResponseCard(
+                return _EventCard(
                   key: ValueKey<int>(event.startTimeMilliseconds),
                   event: event,
                 );
@@ -102,7 +102,7 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
     }
     return const Center(
       child: Text(
-        'Come back later...\n🧐',
+        'Возращайся позже...\n🧐',
         style: TextStyle(fontSize: 28),
         textAlign: TextAlign.center,
       ),
@@ -163,19 +163,19 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
   }
 }
 
-class _ResponseCard extends StatefulWidget {
-  const _ResponseCard({
+class _EventCard extends StatefulWidget {
+  const _EventCard({
     required Key? key,
     required this.event,
   }) : super(key: key);
 
-  final Event<dynamic> event;
+  final AEvent event;
 
   @override
   _ResponseCardState createState() => _ResponseCardState();
 }
 
-class _ResponseCardState extends State<_ResponseCard> {
+class _ResponseCardState extends State<_EventCard> {
   final ValueNotifier<bool> _isExpanded = ValueNotifier<bool>(false);
 
   @override
@@ -188,33 +188,22 @@ class _ResponseCardState extends State<_ResponseCard> {
     _isExpanded.value = !_isExpanded.value;
   }
 
-  Event<dynamic> get _event => widget.event;
+  AEvent get _event => widget.event;
 
   DateTime get _startTime =>
       DateTime.fromMillisecondsSinceEpoch(_event.startTimeMilliseconds);
 
   /// Status code for the [_response].
-  EventType get _eventType => _event.eventType ?? EventType.custom;
+  AEventType get _eventType => _event.eventType ?? AEventType.custom;
 
   Color get _eventTypeColor {
-    if (_eventType == EventType.ecommerce) {
+    if (_eventType == AEventType.ecommerce) {
       return Colors.red;
     }
-    if (_eventType == EventType.userProfile) {
+    if (_eventType == AEventType.userProfile) {
       return Colors.purple;
     }
     return Colors.blueAccent;
-  }
-
-  String? get _eventDataBuilder {
-    final data = _event.data;
-    if (data == null) {
-      return null;
-    }
-    if (_event.data is Map) {
-      return _encoder.convert(_event.data);
-    }
-    return _event.data.toString();
   }
 
   Widget _detailButton(BuildContext context) {
@@ -222,70 +211,68 @@ class _ResponseCardState extends State<_ResponseCard> {
       onPressed: _switchExpand,
       style: _buttonStyle(context),
       child: const Text(
-        'Детали🔍',
+        'Детали',
         style: TextStyle(fontSize: 12, height: 1.2),
       ),
     );
   }
 
   Widget _infoContent(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Text(_startTime.hms()),
-        const SizedBox(width: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 5,
-            vertical: 1,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color: _eventTypeColor,
-          ),
-          child: Text(
-            _eventType.name,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: <Widget>[
+            Text(_startTime.hms()),
+            const SizedBox(width: 6),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 1,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: _eventTypeColor,
+              ),
+              child: Text(
+                _eventType.name,
+                style: const TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text('${_startTime.dayMonthYear()}'),
+            const Spacer(),
+            _detailButton(context),
+          ],
         ),
-        const SizedBox(width: 6),
+        const SizedBox(height: 12),
         Text(
-          'ТЕСТ',
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          _event.name ?? 'Без имени',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        const SizedBox(width: 6),
-        Text('${_startTime}'),
-        const Spacer(),
-        _detailButton(context),
       ],
     );
   }
 
   Widget _detailedContent(BuildContext context) {
     return ValueListenableBuilder<bool>(
-      valueListenable: _isExpanded,
-      builder: (_, bool value, __) {
-        if (!value) {
-          return const SizedBox.shrink();
-        }
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _TagText(
-                tag: 'Event data',
-                content: _eventDataBuilder,
-              ),
-              _TagText(
-                tag: 'Event data',
-                shouldStartFromNewLine: true,
-                content: 'Тестовый текст',
-              ),
-            ],
-          ),
-        );
-      },
-    );
+        valueListenable: _isExpanded,
+        builder: (_, bool value, __) {
+          if (!value) {
+            return const SizedBox.shrink();
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _event.payload.entries
+                  .map((entry) => Text('${entry.key} : ${entry.value} \n'))
+                  .toList(),
+            ),
+          );
+        });
   }
 
   @override
@@ -308,45 +295,13 @@ class _ResponseCardState extends State<_ResponseCard> {
   }
 }
 
-class _TagText extends StatelessWidget {
-  const _TagText({
-    Key? key,
-    required this.tag,
-    this.content,
-    this.shouldStartFromNewLine = true,
-  }) : super(key: key);
-
-  final String tag;
-  final String? content;
-  final bool shouldStartFromNewLine;
-
-  TextSpan get span {
-    return TextSpan(
-      children: <TextSpan>[
-        TextSpan(
-          text: '$tag: ',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        if (shouldStartFromNewLine) TextSpan(text: '\n'),
-        TextSpan(text: content!),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (content == null) {
-      return const SizedBox.shrink();
-    }
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: SelectableText.rich(span),
-    );
-  }
-}
-
 extension _DateTimeExtension on DateTime {
   String hms([String separator = ':']) => '$hour$separator'
       '${'$minute'.padLeft(2, '0')}$separator'
       '${'$second'.padLeft(2, '0')}';
+
+  String dayMonthYear([String separator = '/']) =>
+      '${day.toString().padLeft(2, '0')}$separator'
+      '${month.toString().padLeft(2, '0')}$separator'
+      '$year';
 }

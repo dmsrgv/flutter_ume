@@ -3,6 +3,7 @@ import 'package:example/ume_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:provider/provider.dart';
+import 'package:analytics_inspector/analytics_inspector.dart';
 
 import 'main.dart';
 
@@ -37,6 +38,20 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () => UMEWidget.closeActivatedPlugin(),
               child: const Text('Close activated plugin'),
+            ),
+            TextButton(
+              onPressed: () => AnalyticsUme.addEvent(
+                AEvent(
+                    name:
+                        'тестик большого прибольшого названия которое может быть еще больше если захотеть',
+                    payload: {
+                      'Название купона': 'Бурбон',
+                      'Название салона': 'Кокол',
+                      'Название погона': 'Нормальное такое название',
+                    },
+                    eventType: AEventType.userProfile),
+              ),
+              child: const Text('Добавить событие'),
             ),
             TextButton(
               onPressed: () {

@@ -14,6 +14,7 @@ import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:flutter_ume_kit_channel_monitor/flutter_ume_kit_channel_monitor.dart';
+import 'package:analytics_inspector/analytics_inspector.dart';
 
 final Dio dio = Dio()
   ..options = BaseOptions(connectTimeout: Duration(seconds: 10));
@@ -40,6 +41,7 @@ class _UMEAppState extends State<UMEApp> {
     });
     if (kDebugMode) {
       PluginManager.instance
+        ..register(AnalyticsInspector())
         ..register(WidgetInfoInspector())
         ..register(WidgetDetailInspector())
         ..register(ColorSucker())
