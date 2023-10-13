@@ -53,8 +53,8 @@ class AnalyticsContainer extends ChangeNotifier {
 
   bool get _hasNextPage => _page * _perPage < _events.length;
 
-  void addEvent(Event<dynamic> response) {
-    _events.insert(0, response);
+  void addEvent(Event<dynamic> event) {
+    _events.insert(0, event);
     notifyListeners();
   }
 

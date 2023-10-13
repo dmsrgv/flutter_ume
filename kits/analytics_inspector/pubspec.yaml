@@ -12,15 +12,10 @@ dependencies:
     sdk: flutter
   flutter_ume: ">=1.0.0 <2.0.0"
 
-  appmetrica_plugin: 1.4.0
-  freezed: 2.2.0
-  freezed_annotation: 2.2.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.0.12
-  build_runner: 2.4.5
   flutter_coverage_badge:
     git:
       url: https://github.com/smileShirely/flutter_coverage_badge.git

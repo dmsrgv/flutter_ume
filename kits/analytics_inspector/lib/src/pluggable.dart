@@ -6,10 +6,9 @@ import 'widgets/icon.dart' as icon;
 import 'widgets/pluggable_state.dart';
 
 class AnalyticsInspector extends StatefulWidget implements Pluggable {
-  AnalyticsInspector({Key? key, required this.analyticsSender})
-      : super(key: key);
+  AnalyticsInspector({Key? key, required this.analyticsUme}) : super(key: key);
 
-  final AnalyticsSender analyticsSender;
+  final AnalyticsUme analyticsUme;
 
   @override
   AnalyticsPluggableState createState() => AnalyticsPluggableState();
