@@ -28,6 +28,7 @@ ButtonStyle _buttonStyle(
 }
 
 class AnalyticsPluggableState extends State<AnalyticsInspector> {
+  AEventType? filterType = null;
   @override
   void initState() {
     super.initState();
@@ -77,7 +78,7 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
 
   Widget _itemList(BuildContext context) {
     final List<AEvent> events =
-        InspectorInstance.analyticsContainer.pagedEvents;
+        InspectorInstance.analyticsContainer.filteredEvents;
     final int length = events.length;
     if (length > 0) {
       return CustomScrollView(
@@ -102,7 +103,7 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
     }
     return const Center(
       child: Text(
-        'Возращайся позже...\n🧐',
+        'Тут пока пусто...\n👀',
         style: TextStyle(fontSize: 28),
         textAlign: TextAlign.center,
       ),
@@ -144,6 +145,32 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
                           alignment: AlignmentDirectional.centerEnd,
                           child: _clearAllButton(context),
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      FilterButton(
+                        text: 'Все',
+                        color: Colors.green,
+                      ),
+                      FilterButton(
+                        text: 'custom',
+                        type: AEventType.custom,
+                        color: Colors.blue,
+                      ),
+                      FilterButton(
+                        text: 'userProfile',
+                        type: AEventType.userProfile,
+                        color: Colors.purple,
+                      ),
+                      FilterButton(
+                        text: 'ecommerce',
+                        type: AEventType.ecommerce,
+                        color: Colors.red,
                       ),
                     ],
                   ),
@@ -304,4 +331,33 @@ extension _DateTimeExtension on DateTime {
       '${day.toString().padLeft(2, '0')}$separator'
       '${month.toString().padLeft(2, '0')}$separator'
       '$year';
+}
+
+class FilterButton extends StatelessWidget {
+  const FilterButton({
+    super.key,
+    this.color,
+    this.type,
+    required this.text,
+  });
+  final Color? color;
+  final AEventType? type;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final activeType = InspectorInstance.analyticsContainer.activeFilter;
+    return TextButton(
+        onPressed: () =>
+            InspectorInstance.analyticsContainer.setActiveFilter(type),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            color: activeType == type ? Colors.white : Colors.black,
+          ),
+        ),
+        style: TextButton.styleFrom(
+            backgroundColor: activeType == type ? color : null));
+  }
 }
