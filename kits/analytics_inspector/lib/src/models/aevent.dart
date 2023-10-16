@@ -7,14 +7,15 @@ enum AEventType {
 class AEvent {
   AEvent({
     this.name,
-    this.eventType,
+    AEventType? eventType,
     int? startTimeMilliseconds,
     Map<String, dynamic>? payload,
   })  : payload = payload ?? <String, dynamic>{},
+        eventType = eventType ?? AEventType.custom,
         startTimeMilliseconds = DateTime.now().millisecondsSinceEpoch;
 
   String? name;
-  AEventType? eventType;
+  AEventType eventType;
   Map<String, dynamic> payload;
   int startTimeMilliseconds;
 }
