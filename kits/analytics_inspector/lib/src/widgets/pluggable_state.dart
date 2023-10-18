@@ -347,11 +347,14 @@ class FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activeType = InspectorInstance.analyticsContainer.activeFilter;
+    final count = activeType == type
+        ? '(${InspectorInstance.analyticsContainer.filteredEvents.length})'
+        : '';
     return TextButton(
         onPressed: () =>
             InspectorInstance.analyticsContainer.setActiveFilter(type),
         child: Text(
-          text,
+          '$text $count',
           style: TextStyle(
             fontSize: 12,
             color: activeType == type ? Colors.white : Colors.black,
