@@ -135,7 +135,7 @@ class HttpInspectorPluggableState extends State<HttpInspector> {
                     children: <Widget>[
                       const Spacer(),
                       Text(
-                        'Dio Requests',
+                        'Http Requests',
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       Expanded(
