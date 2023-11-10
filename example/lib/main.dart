@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:example/custom_router_pluggable.dart';
 import 'package:example/detail_page.dart';
 import 'package:example/home_page.dart';
@@ -8,16 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_ui/flutter_ume_kit_ui.dart';
 import 'package:flutter_ume_kit_perf/flutter_ume_kit_perf.dart';
-import 'package:flutter_ume_kit_show_code/flutter_ume_kit_show_code.dart';
 import 'package:flutter_ume_kit_device/flutter_ume_kit_device.dart';
-import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:flutter_ume_kit_channel_monitor/flutter_ume_kit_channel_monitor.dart';
 import 'package:analytics_inspector/analytics_inspector.dart';
-
-final Dio dio = Dio()
-  ..options = BaseOptions(connectTimeout: Duration(seconds: 10));
+import 'package:http_inspector/http_inspector.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -41,20 +35,13 @@ class _UMEAppState extends State<UMEApp> {
     });
     if (kDebugMode) {
       PluginManager.instance
+        ..register(HttpInspector())
         ..register(AnalyticsInspector())
         ..register(WidgetInfoInspector())
-        ..register(WidgetDetailInspector())
         ..register(ColorSucker())
         ..register(AlignRuler())
-        ..register(ColorPicker())
-        ..register(TouchIndicator())
-        ..register(Performance())
-        ..register(ShowCode())
         ..register(MemoryInfoPage())
-        ..register(CpuInfoPage())
         ..register(DeviceInfoPanel())
-        ..register(Console())
-        ..register(DioInspector(dio: dio))
         ..register(CustomRouterPluggable())
         ..register(ChannelPlugin());
     }
