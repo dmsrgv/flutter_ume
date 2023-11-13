@@ -1,4 +1,3 @@
-import 'package:example/custom_router_pluggable.dart';
 import 'package:example/detail_page.dart';
 import 'package:example/home_page.dart';
 import 'package:example/ume_switch.dart';
@@ -30,9 +29,7 @@ class _UMEAppState extends State<UMEApp> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      CustomRouterPluggable().navKey = navigatorKey;
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
     if (kDebugMode) {
       PluginManager.instance
         ..register(HttpInspector())
@@ -42,7 +39,6 @@ class _UMEAppState extends State<UMEApp> {
         ..register(AlignRuler())
         ..register(MemoryInfoPage())
         ..register(DeviceInfoPanel())
-        ..register(CustomRouterPluggable())
         ..register(ChannelPlugin());
     }
   }
