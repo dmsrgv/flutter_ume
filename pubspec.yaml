@@ -17,18 +17,6 @@ dependencies:
   shared_preferences: ^2.0.15
   vm_service: ">=9.4.0 <12.0.0"
   tuple: ^2.0.0
-  flutter_ume_kit_ui:
-    path: kits/flutter_ume_kit_ui
-  flutter_ume_kit_perf:
-    path: kits/flutter_ume_kit_perf
-  flutter_ume_kit_device:
-    path: kits/flutter_ume_kit_device
-  flutter_ume_kit_channel_monitor:
-    path: kits/flutter_ume_kit_channel_monitor
-  analytics_inspector:
-    path: kits/analytics_inspector
-  http_inspector:
-    path: kits/http_inspector
 
 dev_dependencies:
   flutter_test:

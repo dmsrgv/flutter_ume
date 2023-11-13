@@ -29,6 +29,18 @@ dev_dependencies:
   build_runner: 2.4.5
   flutter_ume:
     path: ../
+  flutter_ume_kit_ui:
+    path: ../kits/flutter_ume_kit_ui
+  flutter_ume_kit_perf:
+    path: ../kits/flutter_ume_kit_perf
+  flutter_ume_kit_device:
+    path: ../kits/flutter_ume_kit_device
+  flutter_ume_kit_channel_monitor:
+    path: ../kits/flutter_ume_kit_channel_monitor
+  analytics_inspector:
+    path: ../kits/analytics_inspector
+  http_inspector:
+    path: ../kits/http_inspector
 
 flutter:
   uses-material-design: true
