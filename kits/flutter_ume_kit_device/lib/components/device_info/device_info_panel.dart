@@ -1,4 +1,4 @@
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:platform/platform.dart';
 import 'package:flutter_ume/flutter_ume.dart';
@@ -82,7 +82,13 @@ class _DeviceInfoPanelState extends State<DeviceInfoPanel> {
       'tags': build.tags,
       'type': build.type,
       'isPhysicalDevice': build.isPhysicalDevice,
-      'androidId': build.androidId
+      'androidId': build.serialNumber,
+      'systemFeatures': build.systemFeatures,
+      'displaySizeInches': build.displayMetrics.sizeInches,
+      'displayWidthPixels': build.displayMetrics.widthPx,
+      'displayHeightPixels': build.displayMetrics.heightPx,
+      'displayHeightInches': build.displayMetrics.heightInches,
+      'displayWidthInches': build.displayMetrics.widthInches,
     };
   }
 

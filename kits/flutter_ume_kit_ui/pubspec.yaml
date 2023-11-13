@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_ume: ">=1.0.0 <2.0.0"
-  touch_indicator: ^2.0.0
 
   # for Cyclop
   image: ^4.0.15
