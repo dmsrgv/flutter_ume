@@ -84,11 +84,6 @@ class _DeviceInfoPanelState extends State<DeviceInfoPanel> {
       'isPhysicalDevice': build.isPhysicalDevice,
       'androidId': build.serialNumber,
       'systemFeatures': build.systemFeatures,
-      'displaySizeInches': build.displayMetrics.sizeInches,
-      'displayWidthPixels': build.displayMetrics.widthPx,
-      'displayHeightPixels': build.displayMetrics.heightPx,
-      'displayHeightInches': build.displayMetrics.heightInches,
-      'displayWidthInches': build.displayMetrics.widthInches,
     };
   }
 
