@@ -82,7 +82,6 @@ class _DeviceInfoPanelState extends State<DeviceInfoPanel> {
       'tags': build.tags,
       'type': build.type,
       'isPhysicalDevice': build.isPhysicalDevice,
-      'androidId': build.serialNumber,
       'systemFeatures': build.systemFeatures,
     };
   }
