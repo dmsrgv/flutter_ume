@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_ume_kit_channel_monitor/flutter_ume_kit_channel_monitor.dart';
 import 'package:analytics_inspector/analytics_inspector.dart';
 import 'package:http_inspector/http_inspector.dart';
+import 'package:flutter_ume_kit_shared_preferences/flutter_ume_kit_shared_preferences.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -39,6 +40,7 @@ class _UMEAppState extends State<UMEApp> {
         ..register(AlignRuler())
         ..register(MemoryInfoPage())
         ..register(DeviceInfoPanel())
+        ..register(SharedPreferencesInspector())
         ..register(ChannelPlugin());
     }
   }

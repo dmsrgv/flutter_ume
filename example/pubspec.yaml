@@ -39,6 +39,8 @@ dev_dependencies:
     path: ../kits/flutter_ume_kit_channel_monitor
   analytics_inspector:
     path: ../kits/analytics_inspector
+  flutter_ume_kit_shared_preferences:
+    path: ../kits/flutter_ume_kit_shared_preferences
   http_inspector:
     path: ../kits/http_inspector
 
