@@ -4,8 +4,8 @@ homepage: https://github.com/cfug/flutter_ume_kit
 version: 0.0.2
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=2.0.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.13.0"
 
 dependencies:
   flutter:
