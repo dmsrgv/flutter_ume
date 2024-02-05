@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:provider/provider.dart';
 import 'package:analytics_inspector/analytics_inspector.dart';
+import 'package:errors_inspector/errors_inspector.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, this.title}) : super(key: key);
@@ -49,6 +50,12 @@ class _HomePageState extends State<HomePage> {
                     eventType: AEventType.userProfile),
               ),
               child: const Text('Добавить событие'),
+            ),
+            TextButton(
+              onPressed: () => ErrorsUme.addError(
+                UMEErrorData(),
+              ),
+              child: const Text('Добавить ошибку'),
             ),
             TextButton(
               onPressed: () {
