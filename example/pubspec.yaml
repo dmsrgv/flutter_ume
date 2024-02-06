@@ -42,7 +42,11 @@ dev_dependencies:
   flutter_ume_kit_shared_preferences:
     path: ../kits/flutter_ume_kit_shared_preferences
   http_inspector:
-    path: ../kits/http_inspector
+    path:
+      ../kits/http_inspector
+  errors_inspector:
+    path:
+      ../kits/errors_inspector
 
 flutter:
   uses-material-design: true
