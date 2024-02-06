@@ -6,7 +6,7 @@ import '../instances.dart';
 ButtonStyle _buttonStyle(BuildContext context) => ButtonStyle(
       elevation: MaterialStateProperty.all(0),
       backgroundColor: MaterialStateProperty.all(
-        Theme.of(context).primaryColor,
+        Colors.red[400],
       ),
       padding: MaterialStateProperty.all(
         EdgeInsets.symmetric(
@@ -58,10 +58,8 @@ class ErrorsInspectorPluggableState extends State<ErrorsInspector> {
                 if (index == length - 2) {
                   InspectorInstance.errorsContainer.loadNextPage();
                 }
-                return _ErrorCard(
-                  key: ValueKey(index),
-                  errorData: error,
-                );
+
+                return _ErrorCard(key: ValueKey(index), errorData: error);
               },
               childCount: length,
             ),
@@ -72,7 +70,7 @@ class ErrorsInspectorPluggableState extends State<ErrorsInspector> {
 
     return const Center(
       child: Text(
-        'Come back later...\n🧐',
+        'Пока ошибок нет...\n🧐',
         style: TextStyle(fontSize: 28),
         textAlign: TextAlign.center,
       ),
@@ -106,8 +104,8 @@ class ErrorsInspectorPluggableState extends State<ErrorsInspector> {
                     children: <Widget>[
                       const Spacer(),
                       Text(
-                        'Errors List',
-                        style: Theme.of(context).textTheme.titleMedium,
+                        'Список ошибок',
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                       Expanded(
                         child: Align(
@@ -120,9 +118,10 @@ class ErrorsInspectorPluggableState extends State<ErrorsInspector> {
                               mainAxisSize: MainAxisSize.min,
                               children: const <Widget>[
                                 Text(
-                                  'Clear',
+                                  'Очистить',
                                   style: TextStyle(color: Colors.white),
                                 ),
+                                SizedBox(width: 2),
                                 Icon(
                                   Icons.cleaning_services,
                                   size: 14,
@@ -186,6 +185,8 @@ class _ErrorCardState extends State<_ErrorCard> {
 
   @override
   Widget build(BuildContext context) {
+    final errorData = widget.errorData;
+
     return Card(
       margin: const EdgeInsets.all(8.0),
       shadowColor: Theme.of(context).canvasColor,
@@ -195,17 +196,36 @@ class _ErrorCardState extends State<_ErrorCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: _switchExpand,
-                style: _buttonStyle(context),
-                child: const Text(
-                  'Детали 🔍',
-                  style: TextStyle(color: Colors.white),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(_errorEventTime.hms()),
+                      SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          '${errorData.error}',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                    ],
+                  ),
                 ),
-              ),
+                ElevatedButton(
+                  onPressed: _switchExpand,
+                  style: _buttonStyle(context),
+                  child: const Text(
+                    'Детали 🔍',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
             ValueListenableBuilder<bool>(
               valueListenable: _isExpanded,
@@ -218,7 +238,19 @@ class _ErrorCardState extends State<_ErrorCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${widget.errorData.data}'),
+                      Text(
+                        'Error:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8),
+                      Text('${errorData.error}'),
+                      SizedBox(height: 16),
+                      Text(
+                        'StackTrace:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8),
+                      Text('${errorData.trace}'),
                     ],
                   ),
                 );
@@ -235,9 +267,4 @@ extension _DateTimeExtension on DateTime {
   String hms([String separator = ':']) => '$hour$separator'
       '${'$minute'.padLeft(2, '0')}$separator'
       '${'$second'.padLeft(2, '0')}';
-
-  String dayMonthYear([String separator = '/']) =>
-      '${day.toString().padLeft(2, '0')}$separator'
-      '${month.toString().padLeft(2, '0')}$separator'
-      '$year';
 }

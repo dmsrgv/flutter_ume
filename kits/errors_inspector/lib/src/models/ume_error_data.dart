@@ -1,10 +1,16 @@
 class UMEErrorData {
   UMEErrorData({
-    dynamic data,
+    Object? error,
+    StackTrace? trace,
     int? startTimeMilliseconds,
-  }) : startTimeMilliseconds = DateTime.now().millisecondsSinceEpoch;
+  })  : error = error,
+        trace = trace,
+        startTimeMilliseconds =
+            startTimeMilliseconds ?? DateTime.now().millisecondsSinceEpoch;
 
-  dynamic data;
+  Object? error;
+
+  StackTrace? trace;
 
   int startTimeMilliseconds;
 }

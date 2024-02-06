@@ -53,7 +53,10 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () => ErrorsUme.addError(
-                UMEErrorData(),
+                UMEErrorData(
+                  error: 'Ошибка: Что-то пошло не так...',
+                  trace: StackTrace.current,
+                ),
               ),
               child: const Text('Добавить ошибку'),
             ),
