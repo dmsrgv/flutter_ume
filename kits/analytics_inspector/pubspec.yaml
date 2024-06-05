@@ -13,6 +13,7 @@ dependencies:
   flutter_ume:
     git:
       url: https://github.com/suxoikorm/flutter_ume
+      ref: feat/update-vm-temp
 
 dev_dependencies:
   flutter_test:
