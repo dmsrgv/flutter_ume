@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:example/ume_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:provider/provider.dart';
-
-import 'main.dart';
+import 'package:analytics_inspector/analytics_inspector.dart';
+import 'package:errors_inspector/errors_inspector.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, this.title}) : super(key: key);
@@ -39,6 +38,29 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Close activated plugin'),
             ),
             TextButton(
+              onPressed: () => AnalyticsUme.addEvent(
+                AEvent(
+                    name:
+                        'тестик большого прибольшого названия которое может быть еще больше если захотеть',
+                    payload: {
+                      'Название купона': 'Бурбон',
+                      'Название салона': 'Кокол',
+                      'Название погона': 'Нормальное такое название',
+                    },
+                    eventType: AEventType.userProfile),
+              ),
+              child: const Text('Добавить событие'),
+            ),
+            TextButton(
+              onPressed: () => ErrorsUme.addError(
+                UMEErrorData(
+                  error: 'Ошибка: Что-то пошло не так...',
+                  trace: StackTrace.current,
+                ),
+              ),
+              child: const Text('Добавить ошибку'),
+            ),
+            TextButton(
               onPressed: () {
                 debugPrint('statement');
               },
@@ -66,26 +88,6 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: const Text('Show Dialog'),
-            ),
-            TextButton(
-              onPressed: () {
-                Future.wait<void>(
-                  List<Future<void>>.generate(
-                    10,
-                    (int i) => Future<void>.delayed(
-                      Duration(seconds: i),
-                      () => dio.get(
-                        'https://api.github.com'
-                        '/?_t=${DateTime.now().millisecondsSinceEpoch}&$i',
-                        options: Options(
-                          headers: {'UME-Test': 'This is UME Dio kit.'},
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-              child: const Text('Make multiple network requests'),
             ),
           ],
         ),

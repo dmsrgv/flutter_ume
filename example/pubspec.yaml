@@ -4,14 +4,18 @@ version: 1.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.13.0"
 
 dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.3
   # For Dio Kit
-  dio: ^4.0.0
+  dio: ^5.3.3
+  appmetrica_plugin: 1.4.0
+  freezed: 2.2.0
+  freezed_annotation: 2.2.0
 
 dependency_overrides:
   vm_service: ^13.0.0
@@ -22,22 +26,27 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   test: ^1.16.6
+  build_runner: 2.4.5
   flutter_ume:
     path: ../
   flutter_ume_kit_ui:
     path: ../kits/flutter_ume_kit_ui
   flutter_ume_kit_perf:
     path: ../kits/flutter_ume_kit_perf
-  flutter_ume_kit_show_code:
-    path: ../kits/flutter_ume_kit_show_code
   flutter_ume_kit_device:
     path: ../kits/flutter_ume_kit_device
-  flutter_ume_kit_console:
-    path: ../kits/flutter_ume_kit_console
-  flutter_ume_kit_dio:
-    path: ../kits/flutter_ume_kit_dio
   flutter_ume_kit_channel_monitor:
     path: ../kits/flutter_ume_kit_channel_monitor
+  analytics_inspector:
+    path: ../kits/analytics_inspector
+  flutter_ume_kit_shared_preferences:
+    path: ../kits/flutter_ume_kit_shared_preferences
+  http_inspector:
+    path:
+      ../kits/http_inspector
+  errors_inspector:
+    path:
+      ../kits/errors_inspector
 
 flutter:
   uses-material-design: true

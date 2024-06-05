@@ -1,6 +1,6 @@
-name: flutter_ume_kit_device
-description: Device info kit for flutter_ume.
-version: 1.0.0
+name: analytics_inspector
+description: Analytics Inspector kit for flutter_ume.
+version: 0.0.1
 homepage: https://github.com/bytedance/flutter_ume
 
 environment:
@@ -13,8 +13,6 @@ dependencies:
   flutter_ume:
     git:
       url: https://github.com/dmsrgv/flutter_ume
-  device_info_plus: ^9.1.2
-  platform: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -25,4 +23,4 @@ dev_dependencies:
       url: https://github.com/smileShirely/flutter_coverage_badge.git
       ref: 59b7580f406bb712e9d9049c8c99212946e34f65
 
-flutter:
+

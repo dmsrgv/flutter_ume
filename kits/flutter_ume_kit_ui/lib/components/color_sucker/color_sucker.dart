@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_ume/flutter_ume.dart';
 import 'icon.dart' as icon;
@@ -179,6 +180,17 @@ class _ColorSuckerState extends State<ColorSucker> {
                       color: Colors.grey,
                     )),
           ),
+          const Spacer(),
+          IconButton(
+              icon: const Icon(Icons.copy),
+              splashColor: Colors.blue,
+              highlightColor: Colors.blue,
+              hoverColor: Colors.blue,
+              focusColor: Colors.blue,
+              onPressed: () => Clipboard.setData(ClipboardData(
+                  text:
+                      "#${_currentColor.value.toRadixString(16).substring(2)}"))),
+          const Spacer(),
         ],
       ),
     );

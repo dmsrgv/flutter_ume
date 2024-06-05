@@ -186,7 +186,7 @@ class _AlignRulerState extends State<AlignRuler> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
-                    child: Text('开启后松手将会自动吸附至最近widget',
+                    child: Text('Привязка к ближайшему виджету',
                         style: const TextStyle(
                             color: Colors.red, fontWeight: FontWeight.w500)),
                   ),
