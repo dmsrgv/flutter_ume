@@ -4,7 +4,7 @@ version: 1.0.0
 homepage: https://github.com/bytedance/flutter_ume
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=3.13.0"
 
 dependencies:
@@ -13,7 +13,7 @@ dependencies:
   vm_service: ^13.0.0
   flutter_ume:
     git:
-      url: https://github.com/dmsrgv/flutter_ume
+      url: https://github.com/suxoikorm/flutter_ume
 
 dev_dependencies:
   flutter_test:
