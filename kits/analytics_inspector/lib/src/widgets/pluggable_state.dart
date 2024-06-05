@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:analytics_inspector/src/models/aevent.dart';
 import 'package:flutter/material.dart';
+
 import '../instances.dart';
 import '../pluggable.dart';
 
@@ -29,6 +30,7 @@ ButtonStyle _buttonStyle(
 
 class AnalyticsPluggableState extends State<AnalyticsInspector> {
   AEventType? filterType = null;
+
   @override
   void initState() {
     super.initState();
@@ -172,6 +174,11 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
                         type: AEventType.ecommerce,
                         color: Colors.red,
                       ),
+                      FilterButton(
+                        text: 'search',
+                        type: AEventType.search,
+                        color: Colors.yellow,
+                      ),
                     ],
                   ),
                 ),
@@ -223,15 +230,12 @@ class _ResponseCardState extends State<_EventCard> {
   /// Status code for the [_response].
   AEventType get _eventType => _event.eventType ?? AEventType.custom;
 
-  Color get _eventTypeColor {
-    if (_eventType == AEventType.ecommerce) {
-      return Colors.red;
-    }
-    if (_eventType == AEventType.userProfile) {
-      return Colors.purple;
-    }
-    return Colors.blueAccent;
-  }
+  Color get _eventTypeColor => switch (_eventType) {
+        AEventType.ecommerce => Colors.red,
+        AEventType.userProfile => Colors.purple,
+        AEventType.search => Colors.yellow,
+        _ => Colors.blueAccent,
+      };
 
   Widget _detailButton(BuildContext context) {
     return TextButton(
@@ -340,6 +344,7 @@ class FilterButton extends StatelessWidget {
     this.type,
     required this.text,
   });
+
   final Color? color;
   final AEventType? type;
   final String text;
