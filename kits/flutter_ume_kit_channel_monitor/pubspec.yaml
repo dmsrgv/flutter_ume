@@ -11,10 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_ume:
-    path: .\
-    # git:
-    #   url: https://github.com/suxoikorm/flutter_ume
-    #   ref: f310b561bc7975404fe6493e894a52c99a7e5170
+    git:
+      url: https://github.com/dmsrgv/flutter_ume
   rxdart: ^0.27.3
 
 dev_dependencies:
