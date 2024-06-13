@@ -11,9 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_ume:
-    git:
-      url: https://github.com/suxoikorm/flutter_ume
-      ref: f310b561bc7975404fe6493e894a52c99a7e5170
+    path: .\
+    # git:
+    #   url: https://github.com/suxoikorm/flutter_ume
+    #   ref: f310b561bc7975404fe6493e894a52c99a7e5170
   # for Cyclop
   image: ^4.0.15
   quiver: ^3.2.1

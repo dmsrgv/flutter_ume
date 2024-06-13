@@ -12,9 +12,10 @@ dependencies:
     sdk: flutter
   vm_service: ^13.0.0
   flutter_ume:
-    git:
-      url: https://github.com/suxoikorm/flutter_ume
-      ref: f310b561bc7975404fe6493e894a52c99a7e5170
+    path: .\
+    # git:
+    #   url: https://github.com/suxoikorm/flutter_ume
+    #   ref: f310b561bc7975404fe6493e894a52c99a7e5170
 dev_dependencies:
   flutter_test:
     sdk: flutter
