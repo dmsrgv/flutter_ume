@@ -1,6 +1,7 @@
 enum AEventType {
   ecommerce,
   userProfile,
+  search,
   custom,
 }
 
