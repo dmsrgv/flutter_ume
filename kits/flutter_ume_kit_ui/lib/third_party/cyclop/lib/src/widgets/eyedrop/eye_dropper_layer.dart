@@ -17,7 +17,7 @@ class _EyeDropperModel {
 
   img.Image? snapshot;
 
-  Offset cursorPosition = screenSize.center(Offset.zero);
+  Offset? cursorPosition = screenSize?.center(Offset.zero);
 
   Color hoverColor = Colors.black;
 
@@ -58,8 +58,7 @@ class EyeDrop extends InheritedWidget {
   static EyeDrop of(BuildContext context) {
     final eyeDrop = context.dependOnInheritedWidgetOfExactType<EyeDrop>();
     if (eyeDrop == null) {
-      throw Exception(
-          'No EyeDrop found. You must wrap your application within an EyeDrop widget.');
+      throw Exception('No EyeDrop found. You must wrap your application within an EyeDrop widget.');
     }
     return eyeDrop;
   }
@@ -99,10 +98,8 @@ class EyeDrop extends InheritedWidget {
     }
   }
 
-  void capture(BuildContext context, ValueChanged<Color> onColorSelected,
-      ValueChanged<Color>? onColorChanged) async {
-    final renderer =
-        captureKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+  void capture(BuildContext context, ValueChanged<Color> onColorSelected, ValueChanged<Color>? onColorChanged) async {
+    final renderer = captureKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
 
     if (renderer == null) return;
 
@@ -120,7 +117,7 @@ class EyeDrop extends InheritedWidget {
         cursorPosition: data.cursorPosition,
       ),
     );
-    Overlay.of(context)?.insert(data.eyeOverlayEntry!);
+    Overlay.maybeOf(context)?.insert(data.eyeOverlayEntry!);
   }
 
   @override

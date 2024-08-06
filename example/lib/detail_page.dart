@@ -27,9 +27,7 @@ class DetailPage extends StatelessWidget {
                       builder: (ctx) => AlertDialog(
                         title: const Text('Dialog'),
                         actions: <Widget>[
-                          TextButton(
-                              onPressed: () => Navigator.pop(ctx),
-                              child: const Text('OK')),
+                          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('OK')),
                         ],
                       ),
                     );

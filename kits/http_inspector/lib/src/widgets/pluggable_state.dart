@@ -20,7 +20,7 @@ ButtonStyle _buttonStyle(
       borderRadius: BorderRadius.circular(999999),
     ),
     backgroundColor: Theme.of(context).primaryColor,
-    primary: Colors.white,
+    foregroundColor: Colors.white,
     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
   );
 }
@@ -45,9 +45,7 @@ class HttpInspectorPluggableState extends State<HttpInspector> {
   /// since we've implemented the list with `findChildIndexCallback`.
   void _listener() {
     Future.microtask(() {
-      if (mounted &&
-          !context.debugDoingBuild &&
-          context.owner?.debugBuilding != true) {
+      if (mounted && !context.debugDoingBuild && context.owner?.debugBuilding != true) {
         setState(() {});
       }
     });
@@ -113,7 +111,7 @@ class HttpInspectorPluggableState extends State<HttpInspector> {
     return Material(
       color: Colors.black26,
       child: DefaultTextStyle.merge(
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyMedium,
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -136,7 +134,7 @@ class HttpInspectorPluggableState extends State<HttpInspector> {
                       const Spacer(),
                       Text(
                         'Http Requests',
-                        style: Theme.of(context).textTheme.subtitle1,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       Expanded(
                         child: Align(

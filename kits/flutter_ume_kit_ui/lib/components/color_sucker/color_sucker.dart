@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -42,7 +41,7 @@ class _ColorSuckerState extends State<ColorSucker> {
   BorderRadius? _radius;
   Color _currentColor = Colors.white;
   img.Image? _snapshot;
-  Offset _magnifierPosition = Offset.zero;
+  late Offset _magnifierPosition;
   double _toolBarY = 60.0;
   Matrix4 _matrix = Matrix4.identity();
   late Size _windowSize;
@@ -50,13 +49,12 @@ class _ColorSuckerState extends State<ColorSucker> {
 
   @override
   void initState() {
-    _windowSize = ui.window.physicalSize / ui.window.devicePixelRatio;
+    _windowSize = View.of(context).physicalSize / View.of(context).devicePixelRatio;
     _magnifierSize = widget.size;
     _scale = widget.scale;
     _radius = BorderRadius.circular(_magnifierSize.longestSide);
     _matrix = Matrix4.identity()..scale(widget.scale);
-    _magnifierPosition =
-        _windowSize.center(Offset.zero) - _magnifierSize.center(Offset.zero);
+    _magnifierPosition = _windowSize.center(Offset.zero) - _magnifierSize.center(Offset.zero);
     super.initState();
   }
 
@@ -74,8 +72,7 @@ class _ColorSuckerState extends State<ColorSucker> {
   }
 
   void _onPanUpdate(DragUpdateDetails dragDetails) {
-    _magnifierPosition =
-        dragDetails.globalPosition - _magnifierSize.center(Offset.zero);
+    _magnifierPosition = dragDetails.globalPosition - _magnifierSize.center(Offset.zero);
     double newX = dragDetails.globalPosition.dx;
     double newY = dragDetails.globalPosition.dy;
     final Matrix4 newMatrix = Matrix4.identity()
@@ -109,11 +106,9 @@ class _ColorSuckerState extends State<ColorSucker> {
 
   Future<void> _captureScreen() async {
     try {
-      RenderRepaintBoundary boundary =
-          rootKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary = rootKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       if (byteData == null) {
         return;
       }
@@ -133,26 +128,21 @@ class _ColorSuckerState extends State<ColorSucker> {
 
     img.Pixel pixel = _snapshot!.getPixelSafe(px.toInt(), py.toInt());
 
-    _currentColor = Color.fromARGB(
-        pixel.a.toInt(), pixel.r.toInt(), pixel.g.toInt(), pixel.b.toInt());
+    _currentColor = Color.fromARGB(pixel.a.toInt(), pixel.r.toInt(), pixel.g.toInt(), pixel.b.toInt());
   }
 
   @override
   Widget build(BuildContext context) {
     if (_windowSize.isEmpty) {
       _windowSize = MediaQuery.of(context).size;
-      _magnifierPosition =
-          _windowSize.center(Offset.zero) - _magnifierSize.center(Offset.zero);
+      _magnifierPosition = _windowSize.center(Offset.zero) - _magnifierSize.center(Offset.zero);
     }
     Widget toolBar = Container(
       width: MediaQuery.of(context).size.width - 32,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            const BoxShadow(
-                color: Colors.black26, blurRadius: 6, offset: Offset(2, 2))
-          ]),
+          boxShadow: [const BoxShadow(color: Colors.black26, blurRadius: 6, offset: Offset(2, 2))]),
       margin: const EdgeInsets.only(left: 16, right: 16),
       child: Row(
         children: <Widget>[
@@ -164,21 +154,15 @@ class _ColorSuckerState extends State<ColorSucker> {
                 shape: BoxShape.circle,
                 color: _currentColor,
                 border: Border.all(width: 2.0, color: Colors.white),
-                boxShadow: [
-                  const BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(2, 2))
-                ]),
+                boxShadow: [const BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2))]),
           ),
           Container(
             margin: const EdgeInsets.only(left: 40, right: 16),
-            child:
-                Text("#${_currentColor.value.toRadixString(16).substring(2)}",
-                    style: const TextStyle(
-                      fontSize: 25,
-                      color: Colors.grey,
-                    )),
+            child: Text("#${_currentColor.value.toRadixString(16).substring(2)}",
+                style: const TextStyle(
+                  fontSize: 25,
+                  color: Colors.grey,
+                )),
           ),
           const Spacer(),
           IconButton(
@@ -187,9 +171,8 @@ class _ColorSuckerState extends State<ColorSucker> {
               highlightColor: Colors.blue,
               hoverColor: Colors.blue,
               focusColor: Colors.blue,
-              onPressed: () => Clipboard.setData(ClipboardData(
-                  text:
-                      "#${_currentColor.value.toRadixString(16).substring(2)}"))),
+              onPressed: () =>
+                  Clipboard.setData(ClipboardData(text: "#${_currentColor.value.toRadixString(16).substring(2)}"))),
           const Spacer(),
         ],
       ),
@@ -199,10 +182,7 @@ class _ColorSuckerState extends State<ColorSucker> {
       alignment: Alignment.center,
       children: [
         Positioned(
-            left: 0,
-            top: _toolBarY,
-            child: GestureDetector(
-                onVerticalDragUpdate: _toolBarPanUpdate, child: toolBar)),
+            left: 0, top: _toolBarY, child: GestureDetector(onVerticalDragUpdate: _toolBarPanUpdate, child: toolBar)),
         Positioned(
           left: _magnifierPosition.dx,
           top: _magnifierPosition.dy,
@@ -213,22 +193,18 @@ class _ColorSuckerState extends State<ColorSucker> {
               onPanEnd: _onPanEnd,
               onPanUpdate: _onPanUpdate,
               child: BackdropFilter(
-                filter: ui.ImageFilter.matrix(_matrix.storage,
-                    filterQuality: FilterQuality.none),
+                filter: ui.ImageFilter.matrix(_matrix.storage, filterQuality: FilterQuality.none),
                 child: Container(
                   child: Center(
                     child: Container(
                       height: 1,
                       width: 1,
-                      decoration: const BoxDecoration(
-                          color: Colors.grey, shape: BoxShape.circle),
+                      decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
                     ),
                   ),
                   height: _magnifierSize.height,
                   width: _magnifierSize.width,
-                  decoration: BoxDecoration(
-                      borderRadius: _radius,
-                      border: Border.all(color: Colors.grey, width: 3)),
+                  decoration: BoxDecoration(borderRadius: _radius, border: Border.all(color: Colors.grey, width: 3)),
                 ),
               ),
             ),

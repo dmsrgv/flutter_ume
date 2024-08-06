@@ -30,8 +30,7 @@ void main() {
     });
 
     testWidgets('RootWidget pump widget', (tester) async {
-      PluginManager.instance
-          .registerAll([MockPluggable(), MockPluggableWithStream()]);
+      PluginManager.instance.registerAll([MockPluggable(), MockPluggableWithStream()]);
       final umeRoot = UMEWidget(
           child: MaterialApp(
               home: Scaffold(
@@ -49,7 +48,7 @@ void main() {
       final plugin0 = 'MockPluggable';
       final plugin1 = 'MockPluggableWithStream';
       MethodChannel channel = const MethodChannel('bd_shared_preferences');
-      channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
         if (methodCall.method == 'commit') {
           return Map<String, dynamic>.from(methodCall.arguments);
         } else if (methodCall.method == 'getAll') {
@@ -63,11 +62,7 @@ void main() {
         }
       });
 
-      PluginManager.instance.registerAll([
-        MockPluggable(),
-        MockPluggableWithStream(),
-        MockPluggableWithNestedWidget()
-      ]);
+      PluginManager.instance.registerAll([MockPluggable(), MockPluggableWithStream(), MockPluggableWithNestedWidget()]);
       final umeRoot = UMEWidget(
           child: MaterialApp(
               home: Scaffold(
@@ -78,12 +73,11 @@ void main() {
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 
-      channel.setMockMethodCallHandler(null);
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
     });
 
     testWidgets('RootWidget flutter logo drag', (tester) async {
-      PluginManager.instance
-          .registerAll([MockPluggable(), MockPluggableWithStream()]);
+      PluginManager.instance.registerAll([MockPluggable(), MockPluggableWithStream()]);
       final umeRoot = UMEWidget(
           child: MaterialApp(
               home: Scaffold(
@@ -105,8 +99,7 @@ void main() {
     });
 
     testWidgets('RootWidget flutter logo drag', (tester) async {
-      PluginManager.instance
-          .registerAll([MockPluggable(), MockPluggableWithStream()]);
+      PluginManager.instance.registerAll([MockPluggable(), MockPluggableWithStream()]);
       final umeRoot = UMEWidget(
           child: MaterialApp(
               home: Scaffold(
@@ -117,16 +110,14 @@ void main() {
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 
-      final Offset flutterLogoPosition =
-          tester.getCenter(find.byType(flutterLogo.FlutterLogo));
+      final Offset flutterLogoPosition = tester.getCenter(find.byType(flutterLogo.FlutterLogo));
       await tester.dragFrom(flutterLogoPosition, Offset(-100, -100));
       await tester.pump();
       await tester.pumpAndSettle();
     });
 
     testWidgets('RootWidget flutter logo tap', (tester) async {
-      PluginManager.instance
-          .registerAll([MockPluggable(), MockPluggableWithStream()]);
+      PluginManager.instance.registerAll([MockPluggable(), MockPluggableWithStream()]);
       final umeRoot = UMEWidget(
           child: MaterialApp(
               home: Scaffold(
@@ -137,8 +128,7 @@ void main() {
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 
-      final Offset flutterLogoPosition =
-          tester.getCenter(find.byType(flutterLogo.FlutterLogo));
+      final Offset flutterLogoPosition = tester.getCenter(find.byType(flutterLogo.FlutterLogo));
       await tester.tapAt(flutterLogoPosition);
       await tester.pump();
       await tester.pumpAndSettle();
@@ -151,8 +141,7 @@ void main() {
     testWidgets('RootWidget actions', (tester) async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      PluginManager.instance
-          .registerAll([MockPluggable(), MockPluggableWithStream()]);
+      PluginManager.instance.registerAll([MockPluggable(), MockPluggableWithStream()]);
 
       final umeRoot = UMEWidget(
           child: MaterialApp(
@@ -163,13 +152,11 @@ void main() {
       await tester.pumpWidget(umeRoot);
       await tester.pump(Duration(seconds: 1));
 
-      final Offset flutterLogoPosition =
-          tester.getCenter(find.byType(flutterLogo.FlutterLogo));
+      final Offset flutterLogoPosition = tester.getCenter(find.byType(flutterLogo.FlutterLogo));
       await tester.tapAt(flutterLogoPosition);
       await tester.pump(Duration(seconds: 1));
 
-      final Offset maximalBtnPosition =
-          tester.getCenter(find.byWidgetPredicate((widget) {
+      final Offset maximalBtnPosition = tester.getCenter(find.byWidgetPredicate((widget) {
         return widget is InkWell &&
             (widget.child is CircleAvatar) &&
             (widget.child as CircleAvatar).backgroundColor == Color(0xff53c22b);
@@ -183,8 +170,7 @@ void main() {
       await tester.tapAt(flutterLogoPosition);
       await tester.pump(Duration(seconds: 1));
 
-      final Offset minimalBtnPosition =
-          tester.getCenter(find.byWidgetPredicate((widget) {
+      final Offset minimalBtnPosition = tester.getCenter(find.byWidgetPredicate((widget) {
         return widget is InkWell &&
             (widget.child is CircleAvatar) &&
             (widget.child as CircleAvatar).backgroundColor == Color(0xffe6c029);
@@ -192,8 +178,7 @@ void main() {
       await tester.tapAt(minimalBtnPosition);
       await tester.pump(Duration(seconds: 1));
 
-      final Offset closeBtnPosition =
-          tester.getCenter(find.byWidgetPredicate((widget) {
+      final Offset closeBtnPosition = tester.getCenter(find.byWidgetPredicate((widget) {
         return widget is InkWell &&
             (widget.child is CircleAvatar) &&
             (widget.child as CircleAvatar).backgroundColor == Color(0xffff5a52);
@@ -214,8 +199,7 @@ void main() {
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 
-      final Offset flutterLogoPosition =
-          tester.getCenter(find.byType(flutterLogo.FlutterLogo));
+      final Offset flutterLogoPosition = tester.getCenter(find.byType(flutterLogo.FlutterLogo));
       await tester.tapAt(flutterLogoPosition);
       await tester.pump();
       await tester.pumpAndSettle();

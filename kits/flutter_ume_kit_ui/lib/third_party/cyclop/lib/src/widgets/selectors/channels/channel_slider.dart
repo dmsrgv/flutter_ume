@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../theme.dart';
 import 'hsl_selector.dart';
 
-ThemeData _sliderTheme(Color color, List<Color> colors) =>
-    ThemeData.light().copyWith(
+ThemeData _sliderTheme(Color color, List<Color> colors) => ThemeData.light().copyWith(
       sliderTheme: SliderThemeData(
         trackHeight: 24,
         thumbColor: Colors.white,
@@ -51,7 +50,7 @@ class ChannelSlider extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: Text(label, style: textTheme.subtitle2),
+            child: Text(label, style: textTheme.titleMedium),
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -79,7 +78,7 @@ class ChannelSlider extends StatelessWidget {
                 child: Text(
                   labelGetter(selectedColor),
                   textAlign: TextAlign.center,
-                  style: textTheme.bodyText1,
+                  style: textTheme.bodyMedium,
                 ),
               )
             ],
@@ -153,25 +152,13 @@ class ChannelSliderTrack extends SliderTrackShape with BaseSliderTrackShape {
 
     final shapeRect = RRect.fromLTRBAndCorners(
       trackRect.left - thumbRadius,
-      (textDirection == TextDirection.ltr)
-          ? trackRect.top - (additionalActiveTrackHeight / 2)
-          : trackRect.top,
+      (textDirection == TextDirection.ltr) ? trackRect.top - (additionalActiveTrackHeight / 2) : trackRect.top,
       trackRect.right + thumbRadius,
-      (textDirection == TextDirection.ltr)
-          ? trackRect.bottom + (additionalActiveTrackHeight / 2)
-          : trackRect.bottom,
-      topLeft: (textDirection == TextDirection.ltr)
-          ? activeTrackRadius
-          : trackRadius,
-      bottomLeft: (textDirection == TextDirection.ltr)
-          ? activeTrackRadius
-          : trackRadius,
-      topRight: (textDirection == TextDirection.ltr)
-          ? activeTrackRadius
-          : trackRadius,
-      bottomRight: (textDirection == TextDirection.ltr)
-          ? activeTrackRadius
-          : trackRadius,
+      (textDirection == TextDirection.ltr) ? trackRect.bottom + (additionalActiveTrackHeight / 2) : trackRect.bottom,
+      topLeft: (textDirection == TextDirection.ltr) ? activeTrackRadius : trackRadius,
+      bottomLeft: (textDirection == TextDirection.ltr) ? activeTrackRadius : trackRadius,
+      topRight: (textDirection == TextDirection.ltr) ? activeTrackRadius : trackRadius,
+      bottomRight: (textDirection == TextDirection.ltr) ? activeTrackRadius : trackRadius,
     );
 
     context.canvas.drawRRect(shapeRect, leftTrackPaint);

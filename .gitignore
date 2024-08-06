@@ -78,3 +78,6 @@ build/
 # Coverage
 **/coverage/output/
 **/coverage/new_lcov.info
+
+# FVM Version Cache
+.fvm/

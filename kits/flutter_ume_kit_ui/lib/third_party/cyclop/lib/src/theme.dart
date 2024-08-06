@@ -17,16 +17,16 @@ const defaultBorderRadius = BorderRadius.all(Radius.circular(defaultRadius));
 
 final lightTheme = ThemeData.light().copyWith(
   scaffoldBackgroundColor: const Color(0xfff0f0f0),
-  backgroundColor: const Color(0xffdadada),
-  toggleableActiveColor: Colors.cyan,
+  colorScheme: ColorScheme.light(
+    surface: const Color(0xffdadada),
+    secondary: Colors.cyan,
+  ),
   inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
         isDense: true,
         fillColor: Colors.white,
         filled: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-        border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(defaultRadius)),
+        border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(defaultRadius)),
       ),
   dialogTheme: ThemeData.light().dialogTheme.copyWith(
         backgroundColor: const Color(0xfff6f6f6),
@@ -36,39 +36,38 @@ final lightTheme = ThemeData.light().copyWith(
 );
 
 final darkTheme = ThemeData.dark().copyWith(
-  backgroundColor: Colors.grey.shade700,
-  toggleableActiveColor: Colors.cyan,
-  textSelectionTheme: ThemeData.light()
-      .textSelectionTheme
-      .copyWith(selectionColor: Colors.cyan.shade700),
+  colorScheme: ColorScheme.dark(
+    surface: Colors.grey.shade700,
+    secondary: Colors.cyan,
+  ),
+  textSelectionTheme: ThemeData.light().textSelectionTheme.copyWith(selectionColor: Colors.cyan.shade700),
   dialogTheme: ThemeData.light().dialogTheme.copyWith(
         backgroundColor: Colors.grey.shade800,
       ),
-  inputDecorationTheme:
-      lightTheme.inputDecorationTheme.copyWith(fillColor: Colors.grey.shade800),
+  inputDecorationTheme: lightTheme.inputDecorationTheme.copyWith(fillColor: Colors.grey.shade800),
   textButtonTheme: TextButtonThemeData(style: _darkTextButtonStyle),
 );
 
 final _lightTextButtonStyle = ButtonStyle(
-  shape: MaterialStateProperty.all(
+  shape: WidgetStateProperty.all(
     const RoundedRectangleBorder(borderRadius: defaultBorderRadius),
   ),
-  padding: MaterialStateProperty.all(
+  padding: WidgetStateProperty.all(
     const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
   ),
-  foregroundColor: MaterialStateProperty.all(Colors.grey.shade700),
-  overlayColor: MaterialStateProperty.all(Colors.white30),
+  foregroundColor: WidgetStateProperty.all(Colors.grey.shade700),
+  overlayColor: WidgetStateProperty.all(Colors.white30),
 );
 
 final _darkTextButtonStyle = ButtonStyle(
-  shape: MaterialStateProperty.all(
+  shape: WidgetStateProperty.all(
     const RoundedRectangleBorder(borderRadius: defaultBorderRadius),
   ),
-  padding: MaterialStateProperty.all(
+  padding: WidgetStateProperty.all(
     const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
   ),
-  foregroundColor: MaterialStateProperty.all(Colors.white70),
-  overlayColor: MaterialStateProperty.all(Colors.black12),
+  foregroundColor: WidgetStateProperty.all(Colors.white70),
+  overlayColor: WidgetStateProperty.all(Colors.black12),
 );
 
 const defaultDivider = Divider(
@@ -82,14 +81,8 @@ const shadowColor = Color(0x44333333);
 
 const darkShadowColor = Color(0x99333333);
 
-const defaultShadowBox = [
-  BoxShadow(blurRadius: 3, spreadRadius: 1, color: shadowColor)
-];
+const defaultShadowBox = [BoxShadow(blurRadius: 3, spreadRadius: 1, color: shadowColor)];
 
-const darkShadowBox = [
-  BoxShadow(blurRadius: 3, spreadRadius: 1, color: darkShadowColor)
-];
+const darkShadowBox = [BoxShadow(blurRadius: 3, spreadRadius: 1, color: darkShadowColor)];
 
-const largeDarkShadowBox = [
-  BoxShadow(blurRadius: 10, spreadRadius: 5, color: shadowColor)
-];
+const largeDarkShadowBox = [BoxShadow(blurRadius: 10, spreadRadius: 5, color: shadowColor)];

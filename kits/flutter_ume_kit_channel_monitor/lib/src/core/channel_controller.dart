@@ -9,9 +9,7 @@ class _ChannelController {
   final StandardMethodCodec codec = const StandardMethodCodec();
 
   void trackChannelEvent(String channel, DateTime sendTime, bool send,
-      {ByteData? data,
-      MessageHandler? handler,
-      ui.PlatformMessageResponseCallback? callback}) {
+      {ByteData? data, MessageHandler? handler, ui.PlatformMessageResponseCallback? callback}) {
     MethodCall call = const MethodCall('unknown');
     try {
       call = codec.decodeMethodCall(data);
@@ -22,9 +20,7 @@ class _ChannelController {
     final ChannelInfoModel model = ChannelInfoModel(
       type: ChannelType.method,
       channelName: channel,
-      direction: send
-          ? TransDirection.flutterToNative
-          : TransDirection.nativeToFlutter,
+      direction: send ? TransDirection.flutterToNative : TransDirection.nativeToFlutter,
       methodName: call.method,
       timestamp: sendTime,
       duration: DateTime.now().difference(sendTime),

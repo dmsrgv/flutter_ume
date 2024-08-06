@@ -50,8 +50,7 @@ class _DragableGridViewState<T> extends State<DragableGridView> {
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         itemCount: dataList!.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, childAspectRatio: 0.85),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 0.85),
         itemBuilder: ((ctx, index) {
           return _buildDraggable(ctx, index);
         }));
@@ -63,7 +62,7 @@ class _DragableGridViewState<T> extends State<DragableGridView> {
         return LongPressDraggable(
           data: index,
           child: DragTarget<int>(
-            onAccept: (_) {},
+            onAcceptWithDetails: (_) {},
             builder: (context, data, rejects) {
               return willAcceptIndex >= 0 && willAcceptIndex == index
                   ? Container()
@@ -76,15 +75,15 @@ class _DragableGridViewState<T> extends State<DragableGridView> {
                 dataList = dataListBackup.sublist(0);
               });
             },
-            onWillAccept: (int? fromIndex) {
-              final accept = fromIndex != index;
+            onWillAcceptWithDetails: (DragTargetDetails<int> fromIndex) {
+              final accept = fromIndex.data != index;
               if (accept) {
                 willAcceptIndex = index;
                 showItemWhenCovered = true;
                 dataList = dataListBackup.sublist(0);
-                final fromData = dataList![fromIndex!];
+                final fromData = dataList![fromIndex.data];
                 setState(() {
-                  dataList!.removeAt(fromIndex);
+                  dataList!.removeAt(fromIndex.data);
                   dataList!.insert(index, fromData);
                 });
               }
@@ -130,9 +129,7 @@ class _DragableGridViewState<T> extends State<DragableGridView> {
           ),
           childWhenDragging: Container(
             child: SizedBox(
-              child: showItemWhenCovered
-                  ? widget.itemBuilder(context, dataList![index])
-                  : null,
+              child: showItemWhenCovered ? widget.itemBuilder(context, dataList![index]) : null,
             ),
           ),
         );

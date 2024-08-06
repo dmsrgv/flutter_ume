@@ -21,8 +21,7 @@ class SharedPreferencesInspector extends StatefulWidget implements Pluggable {
   SharedPreferencesInspector({Key? key}) : super(key: key);
 
   @override
-  State<SharedPreferencesInspector> createState() =>
-      _SharedPreferencesInstpectorState();
+  State<SharedPreferencesInspector> createState() => _SharedPreferencesInstpectorState();
 
   @override
   Widget buildWidget(BuildContext? context) {
@@ -33,8 +32,7 @@ class SharedPreferencesInspector extends StatefulWidget implements Pluggable {
   String get displayName => 'SharedPreferencesInfo';
 
   @override
-  ImageProvider<Object> get iconImageProvider =>
-      MemoryImage(base64Decode(icon.iconData));
+  ImageProvider<Object> get iconImageProvider => MemoryImage(base64Decode(icon.iconData));
 
   @override
   String get name => 'SharedPreferencesInfo';
@@ -50,8 +48,7 @@ class SharePreferencesModel {
   SharePreferencesModel({required this.key, this.value});
 }
 
-class _SharedPreferencesInstpectorState
-    extends State<SharedPreferencesInspector> {
+class _SharedPreferencesInstpectorState extends State<SharedPreferencesInspector> {
   var sharePreferencesList = <SharePreferencesModel>[];
   SharePreferencesModel? selectModel;
   @override
@@ -65,8 +62,7 @@ class _SharedPreferencesInstpectorState
           var keys = value.getKeys();
           sharePreferencesList = [];
           for (var key in keys) {
-            sharePreferencesList
-                .add(SharePreferencesModel(key: key, value: value.get(key)));
+            sharePreferencesList.add(SharePreferencesModel(key: key, value: value.get(key)));
           }
         }));
   }
@@ -156,13 +152,10 @@ class SharedPreferencesItemCell extends StatefulWidget {
   final VoidCallback? onCancel;
   final VoidCallback? onRefresh;
 
-  SharedPreferencesItemCell(
-      {Key? key, required this.model, this.onCancel, this.onRefresh})
-      : super(key: key);
+  SharedPreferencesItemCell({Key? key, required this.model, this.onCancel, this.onRefresh}) : super(key: key);
 
   @override
-  State<SharedPreferencesItemCell> createState() =>
-      _SharedPreferencesItemCellState();
+  State<SharedPreferencesItemCell> createState() => _SharedPreferencesItemCellState();
 }
 
 class _SharedPreferencesItemCellState extends State<SharedPreferencesItemCell> {
@@ -221,25 +214,20 @@ class _SharedPreferencesItemCellState extends State<SharedPreferencesItemCell> {
                 children: [
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(CupertinoColors.systemGrey),
+                      backgroundColor: WidgetStateProperty.all(CupertinoColors.systemGrey),
                     ),
                     onPressed: () {
                       widget.onCancel?.call();
                     },
                     child: Text(
                       'Назад',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
                     ),
                   ),
                   SizedBox(width: 15),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.red.shade700),
+                      backgroundColor: WidgetStateProperty.all(Colors.red.shade700),
                     ),
                     onPressed: () async {
                       var share = await SharedPreferences.getInstance();
@@ -248,46 +236,37 @@ class _SharedPreferencesItemCellState extends State<SharedPreferencesItemCell> {
                     },
                     child: Text(
                       'Удалить',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
                     ),
                   ),
                   SizedBox(width: 15),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blue.shade700),
+                      backgroundColor: WidgetStateProperty.all(Colors.blue.shade700),
                     ),
                     onPressed: () async {
                       var value = await SharedPreferences.getInstance();
                       if (widget.model.value.runtimeType == double) {
                         if (double.tryParse(controller.text) != null) {
-                          await value.setDouble(widget.model.key,
-                              double.tryParse(controller.text)!);
+                          await value.setDouble(widget.model.key, double.tryParse(controller.text)!);
                         } else {
                           print("${controller.text} can not parse to double");
                         }
                       } else if (widget.model.value.runtimeType == int) {
                         if (int.tryParse(controller.text) != null) {
-                          await value.setInt(
-                              widget.model.key, int.parse(controller.text));
+                          await value.setInt(widget.model.key, int.parse(controller.text));
                         } else {
                           print("${controller.text} can not parse to int");
                         }
                       } else if (widget.model.value.runtimeType == bool) {
                         if (controller.text.tryParseBool() != null) {
-                          await value.setBool(widget.model.key,
-                              controller.text.tryParseBool()!);
+                          await value.setBool(widget.model.key, controller.text.tryParseBool()!);
                         } else {
                           print("${controller.text} can not parse to bool");
                         }
                       } else if (widget.model.value.runtimeType == String) {
-                        await value.setString(
-                            widget.model.key, controller.text);
-                      } else if (widget.model.value.runtimeType.toString() ==
-                          "List<String>") {
+                        await value.setString(widget.model.key, controller.text);
+                      } else if (widget.model.value.runtimeType.toString() == "List<String>") {
                         var data = controller.text.replaceFirst('[', '');
                         data = data.replaceFirst(']', '');
                         var list = data.split(',');
@@ -302,10 +281,7 @@ class _SharedPreferencesItemCellState extends State<SharedPreferencesItemCell> {
                     },
                     child: Text(
                       'Сохранить',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
                     ),
                   ),
                 ],

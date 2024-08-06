@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_ume/core/ui/global.dart';
 import 'package:flutter_ume_kit_ui/components/widget_info_inspector/widget_info_inspector.dart';
@@ -61,8 +60,7 @@ void main() {
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 
-      final Offset textLocation =
-          tester.getCenter(find.byWidgetPredicate((widget) {
+      final Offset textLocation = tester.getCenter(find.byWidgetPredicate((widget) {
         return widget is Text && widget.data == 'test text';
       }));
 

@@ -78,9 +78,7 @@ class _SwatchLibraryState extends State<SwatchLibrary> {
               borderRadius: BorderRadius.circular(4),
             ),
             foregroundDecoration: BoxDecoration(
-              border: color == widget.currentColor
-                  ? Border.all(color: Colors.white, width: 3)
-                  : null,
+              border: color == widget.currentColor ? Border.all(color: Colors.white, width: 3) : null,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -95,8 +93,7 @@ class _SwatchLibraryState extends State<SwatchLibrary> {
       ),
       child: Center(
         child: IconButton(
-          color:
-              widget.canAdd ? theme.toggleableActiveColor : theme.disabledColor,
+          color: widget.canAdd ? theme.colorScheme.secondary : theme.disabledColor,
           icon: const Icon(Icons.add),
           onPressed: widget.canAdd && widget.onSwatchesUpdate != null
               ? () {
