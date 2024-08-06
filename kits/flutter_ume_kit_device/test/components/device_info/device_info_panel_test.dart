@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_ume/core/ui/global.dart';
 import 'package:flutter_ume_kit_device/components/device_info/device_info_panel.dart';
@@ -22,8 +21,8 @@ void main() {
       expect(imageProvider, isNotNull);
     });
     setUp(() {
-      MethodChannel('plugins.flutter.io/device_info')
-          .setMockMethodCallHandler((call) {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(MethodChannel('plugins.flutter.io/device_info'), (call) {
         if (call.method == 'getIosDeviceInfo') {
           return Future.value({
             'name': 'data.name',
@@ -75,8 +74,8 @@ void main() {
     });
 
     tearDown(() {
-      MethodChannel('plugins.flutter.io/device_info')
-          .setMockMethodCallHandler(null);
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(MethodChannel('plugins.flutter.io/device_info'), null);
     });
     testWidgets('DeviceInfoPanel pump widget, Android', (tester) async {
       WidgetsFlutterBinding.ensureInitialized();

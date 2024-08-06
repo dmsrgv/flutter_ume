@@ -58,24 +58,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Text(
                   '$_counter',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ],
             ),
           ),
           Align(
               alignment: Alignment.bottomRight,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Text(
-                      _hasTapped
-                          ? 'Open \nCustomLog \nto view log'
-                          : 'Tap here 👉',
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                    SizedBox(width: 80)
-                  ])),
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+                Text(
+                  _hasTapped ? 'Open \nCustomLog \nto view log' : 'Tap here 👉',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                SizedBox(width: 80)
+              ])),
         ],
       ),
       floatingActionButton: FloatingActionButton(

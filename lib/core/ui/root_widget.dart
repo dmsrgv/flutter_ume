@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart'
-    hide FlutterLogo, FlutterLogoDecoration, FlutterLogoStyle;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide FlutterLogo, FlutterLogoDecoration, FlutterLogoStyle;
 import 'package:flutter_ume/core/pluggable_message_service.dart';
 import 'package:flutter_ume/core/ui/panel_action_define.dart';
 import 'package:flutter_ume/core/plugin_manager.dart';
@@ -42,8 +42,7 @@ class UMEWidget extends StatefulWidget {
   /// The method does not have side-effects whether the [UMEWidget]
   /// is not enabled or no plugin has been activated.
   static void closeActivatedPlugin() {
-    final _ContentPageState? state =
-        _umeWidgetState?._contentPageKey.currentState;
+    final _ContentPageState? state = _umeWidgetState?._contentPageKey.currentState;
     if (state?._currentSelected != null) {
       state?._closeActivatedPluggable();
     }
@@ -84,9 +83,9 @@ class _UMEWidgetState extends State<UMEWidget> {
     _replaceChild();
     _injectOverlay();
 
-    _onMetricsChanged =
-        bindingAmbiguate(WidgetsBinding.instance)!.window.onMetricsChanged;
-    bindingAmbiguate(WidgetsBinding.instance)!.window.onMetricsChanged = () {
+    _onMetricsChanged = WidgetsBinding.instance.window.onMetricsChanged;
+
+    WidgetsBinding.instance.window.onMetricsChanged = () {
       if (_onMetricsChanged != null) {
         _onMetricsChanged!();
         _replaceChild();
@@ -98,8 +97,7 @@ class _UMEWidgetState extends State<UMEWidget> {
   @override
   void dispose() {
     if (_onMetricsChanged != null) {
-      bindingAmbiguate(WidgetsBinding.instance)!.window.onMetricsChanged =
-          _onMetricsChanged;
+      WidgetsBinding.instance.window.onMetricsChanged = _onMetricsChanged;
     }
     super.dispose();
     // Do the cleaning at last.
@@ -109,9 +107,7 @@ class _UMEWidgetState extends State<UMEWidget> {
   @override
   void didUpdateWidget(UMEWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    widget.enable
-        ? PluggableMessageService().resetListener()
-        : PluggableMessageService().clearListener();
+    widget.enable ? PluggableMessageService().resetListener() : PluggableMessageService().clearListener();
     if (widget.enable != oldWidget.enable && widget.enable) {
       _injectOverlay();
     }
@@ -124,12 +120,10 @@ class _UMEWidgetState extends State<UMEWidget> {
   }
 
   void _replaceChild() {
-    final nestedWidgets =
-        PluginManager.instance.pluginsMap.values.where((value) {
+    final nestedWidgets = PluginManager.instance.pluginsMap.values.where((value) {
       return value != null && value is PluggableWithNestedWidget;
     }).toList();
-    Widget layoutChild = _buildLayout(
-        widget.child, widget.supportedLocales, widget.localizationsDelegates);
+    Widget layoutChild = _buildLayout(widget.child, widget.supportedLocales, widget.localizationsDelegates);
     for (var item in nestedWidgets) {
       if (item!.name != PluginManager.instance.activatedPluggableName) {
         continue;
@@ -139,18 +133,18 @@ class _UMEWidgetState extends State<UMEWidget> {
         break;
       }
     }
-    _child =
-        Directionality(textDirection: TextDirection.ltr, child: layoutChild);
+    _child = Directionality(textDirection: TextDirection.ltr, child: layoutChild);
   }
 
-  Stack _buildLayout(Widget child, Iterable<Locale>? supportedLocales,
-      Iterable<LocalizationsDelegate> delegates) {
+  Stack _buildLayout(Widget child, Iterable<Locale>? supportedLocales, Iterable<LocalizationsDelegate> delegates) {
+    final view = PlatformDispatcher.instance.implicitView;
+    assert(view == null, 'Internal View widget for platform was multiplied or unbound');
+
     return Stack(
       children: <Widget>[
         RepaintBoundary(child: child, key: rootKey),
-        MediaQuery(
-          data: MediaQueryData.fromWindow(
-              bindingAmbiguate(WidgetsBinding.instance)!.window),
+        View(
+          view: view!,
           child: Localizations(
             locale: supportedLocales?.first ?? Locale('en', 'US'),
             delegates: delegates.toList(),
@@ -170,7 +164,7 @@ class _UMEWidgetState extends State<UMEWidget> {
   }
 
   void _injectOverlay() {
-    bindingAmbiguate(WidgetsBinding.instance)?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_overlayEntryInserted) {
         return;
       }
@@ -269,8 +263,7 @@ class _ContentPageState extends State<_ContentPage> {
 
   void _updatePanelWidget() {
     setState(() {
-      _currentWidget =
-          _showedMenu ? (_minimalContent ? _toolbarWidget : _menuPage) : _empty;
+      _currentWidget = _showedMenu ? (_minimalContent ? _toolbarWidget : _menuPage) : _empty;
     });
   }
 
@@ -283,10 +276,7 @@ class _ContentPageState extends State<_ContentPage> {
 
   Widget _logoWidget() {
     if (_currentSelected != null) {
-      return Container(
-          child: Image(image: _currentSelected!.iconImageProvider),
-          height: 30,
-          width: 30);
+      return Container(child: Image(image: _currentSelected!.iconImageProvider), height: 30, width: 30);
     }
     return FlutterLogo(size: 40, colors: _showedMenu ? Colors.red : null);
   }
@@ -324,9 +314,8 @@ class _ContentPageState extends State<_ContentPage> {
       if (pluginData is PluggableWithAnywhereDoor) {
         dynamic result;
         if (pluginData.routeNameAndArgs != null) {
-          result = await pluginData.navigator?.pushNamed(
-              pluginData.routeNameAndArgs!.item1,
-              arguments: pluginData.routeNameAndArgs!.item2);
+          result = await pluginData.navigator
+              ?.pushNamed(pluginData.routeNameAndArgs!.item1, arguments: pluginData.routeNameAndArgs!.item2);
         } else if (pluginData.route != null) {
           result = await pluginData.navigator?.push(pluginData.route!);
         }
@@ -375,8 +364,7 @@ class _ContentPageState extends State<_ContentPage> {
     _context = context;
     if (_windowSize.isEmpty) {
       _dx = MediaQuery.of(context).size.width - dotSize.width - margin * 4;
-      _dy =
-          MediaQuery.of(context).size.height - dotSize.height - bottomDistance;
+      _dy = MediaQuery.of(context).size.height - dotSize.height - bottomDistance;
       _windowSize = MediaQuery.of(context).size;
     }
     return Container(
@@ -398,16 +386,9 @@ class _ContentPageState extends State<_ContentPage> {
                 onHorizontalDragUpdate: dragEvent,
                 onVerticalDragUpdate: dragEvent,
                 child: Container(
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        const BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(0.0, 0.0),
-                            blurRadius: 2.0,
-                            spreadRadius: 1.0)
-                      ]),
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white, boxShadow: [
+                    const BoxShadow(color: Colors.black12, offset: Offset(0.0, 0.0), blurRadius: 2.0, spreadRadius: 1.0)
+                  ]),
                   width: dotSize.width,
                   height: dotSize.height,
                   child: Stack(
@@ -419,9 +400,7 @@ class _ContentPageState extends State<_ContentPage> {
                           right: 6,
                           top: 8,
                           child: RedDot(
-                            pluginDatas: PluginManager
-                                .instance.pluginsMap.values
-                                .toList(),
+                            pluginDatas: PluginManager.instance.pluginsMap.values.toList(),
                           ))
                     ],
                   ),

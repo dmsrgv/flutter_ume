@@ -20,12 +20,10 @@ class MainTitle extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               Labels.mainTitle,
-              style: textTheme.subtitle2,
+              style: textTheme.titleMedium,
             ),
           ),
-          onClose != null
-              ? IconButton(icon: const Icon(Icons.close), onPressed: onClose)
-              : const SizedBox(height: 48)
+          onClose != null ? IconButton(icon: const Icon(Icons.close), onPressed: onClose) : const SizedBox(height: 48)
         ],
       ),
     );

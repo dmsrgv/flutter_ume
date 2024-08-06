@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_ui/components/hit_test.dart';
-import 'package:flutter_ume_kit_ui/util/binding_ambiguate.dart';
 import 'icon.dart' as icon;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_ume/util/constants.dart';
@@ -28,12 +27,10 @@ class WidgetInfoInspector extends StatefulWidget implements Pluggable {
   ImageProvider<Object> get iconImageProvider => MemoryImage(icon.iconBytes);
 }
 
-class _WidgetInfoInspectorState extends State<WidgetInfoInspector>
-    with WidgetsBindingObserver {
-  _WidgetInfoInspectorState()
-      : selection = WidgetInspectorService.instance.selection;
+class _WidgetInfoInspectorState extends State<WidgetInfoInspector> with WidgetsBindingObserver {
+  _WidgetInfoInspectorState() : selection = WidgetInspectorService.instance.selection;
 
-  final window = bindingAmbiguate(WidgetsBinding.instance)!.window;
+  late final window = View.of(context);
 
   Offset? _lastPointerLocation;
   OverlayEntry _overlayEntry = OverlayEntry(builder: (ctx) => Container());
@@ -41,8 +38,7 @@ class _WidgetInfoInspectorState extends State<WidgetInfoInspector>
   final InspectorSelection selection;
 
   void _inspectAt(Offset? position) {
-    final List<RenderObject> selected =
-        HitTest.hitTest(position, edgeHitMargin: 2.0);
+    final List<RenderObject> selected = HitTest.hitTest(position, edgeHitMargin: 2.0);
     setState(() {
       selection.candidates = selected;
     });
@@ -54,9 +50,7 @@ class _WidgetInfoInspectorState extends State<WidgetInfoInspector>
   }
 
   void _handlePanEnd(DragEndDetails details) {
-    final Rect bounds =
-        (Offset.zero & (window.physicalSize / window.devicePixelRatio))
-            .deflate(1.0);
+    final Rect bounds = (Offset.zero & (window.physicalSize / window.devicePixelRatio)).deflate(1.0);
     if (!bounds.contains(_lastPointerLocation!)) {
       setState(() {
         selection.clear();
@@ -74,8 +68,7 @@ class _WidgetInfoInspectorState extends State<WidgetInfoInspector>
   void initState() {
     super.initState();
     selection.clear();
-    bindingAmbiguate(WidgetsBinding.instance)
-        ?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _overlayEntry = OverlayEntry(builder: (_) => _DebugPaintButton());
       overlayKey.currentState?.insert(_overlayEntry);
     });
@@ -90,9 +83,7 @@ class _WidgetInfoInspectorState extends State<WidgetInfoInspector>
       onPanEnd: _handlePanEnd,
       behavior: HitTestBehavior.opaque,
       child: IgnorePointer(
-          child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height)),
+          child: Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height)),
     );
     children.add(gesture);
     children.add(InspectorOverlay(selection: selection));
@@ -153,9 +144,10 @@ class _DebugPaintButtonState extends State<_DebugPaintButton> {
         child.markNeedsPaint();
         child.visitChildren(visitor);
       };
-      bindingAmbiguate(RendererBinding.instance)
-          ?.renderView
-          .visitChildren(visitor);
+
+      void _visitChild(RenderView view) => view.visitChildren(visitor);
+      //TODO: be careful now. It's the unsafed way, cause of many root views. Should be replaced in future updates.
+      RendererBinding.instance.renderViews.forEach(_visitChild);
     });
   }
 
@@ -163,16 +155,16 @@ class _DebugPaintButtonState extends State<_DebugPaintButton> {
   void dispose() {
     super.dispose();
     debugPaintSizeEnabled = false;
-    bindingAmbiguate(WidgetsBinding.instance)
-        ?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       late RenderObjectVisitor visitor;
       visitor = (RenderObject child) {
         child.markNeedsPaint();
         child.visitChildren(visitor);
       };
-      bindingAmbiguate(RendererBinding.instance)
-          ?.renderView
-          .visitChildren(visitor);
+
+      void _visitChild(RenderView view) => view.visitChildren(visitor);
+      //TODO: be careful now. It's the unsafed way, cause of many root views. Should be replaced in future updates.
+      RendererBinding.instance.renderViews.forEach(_visitChild);
     });
   }
 }

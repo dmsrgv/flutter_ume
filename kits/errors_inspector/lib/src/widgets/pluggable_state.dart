@@ -4,17 +4,17 @@ import '../../errors_inspector.dart';
 import '../instances.dart';
 
 ButtonStyle _buttonStyle(BuildContext context) => ButtonStyle(
-      elevation: MaterialStateProperty.all(0),
-      backgroundColor: MaterialStateProperty.all(
+      elevation: WidgetStateProperty.all(0),
+      backgroundColor: WidgetStateProperty.all(
         Colors.red[400],
       ),
-      padding: MaterialStateProperty.all(
+      padding: WidgetStateProperty.all(
         EdgeInsets.symmetric(
           horizontal: 5,
           vertical: 3,
         ),
       ),
-      minimumSize: MaterialStateProperty.all(Size.zero),
+      minimumSize: WidgetStateProperty.all(Size.zero),
     );
 
 class ErrorsInspectorPluggableState extends State<ErrorsInspector> {
@@ -36,9 +36,7 @@ class ErrorsInspectorPluggableState extends State<ErrorsInspector> {
   /// since we've implemented the list with `findChildIndexCallback`.
   void _listener() {
     Future.microtask(() {
-      if (mounted &&
-          !context.debugDoingBuild &&
-          context.owner?.debugBuilding != true) {
+      if (mounted && !context.debugDoingBuild && context.owner?.debugBuilding != true) {
         setState(() {});
       }
     });
@@ -111,8 +109,7 @@ class ErrorsInspectorPluggableState extends State<ErrorsInspector> {
                         child: Align(
                           alignment: AlignmentDirectional.centerEnd,
                           child: ElevatedButton(
-                            onPressed:
-                                InspectorInstance.errorsContainer.clearErrors,
+                            onPressed: InspectorInstance.errorsContainer.clearErrors,
                             style: _buttonStyle(context),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,

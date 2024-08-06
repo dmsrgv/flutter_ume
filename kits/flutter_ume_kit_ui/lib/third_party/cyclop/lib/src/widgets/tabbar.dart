@@ -33,9 +33,7 @@ class _TabsState extends State<Tabs> {
       case 0:
         return Alignment.topLeft;
       case 1:
-        return widget.labels.length == 2
-            ? Alignment.topRight
-            : Alignment.topCenter;
+        return widget.labels.length == 2 ? Alignment.topRight : Alignment.topCenter;
       case 2:
         return Alignment.topRight;
     }
@@ -54,10 +52,7 @@ class _TabsState extends State<Tabs> {
     final size = MediaQuery.of(context).size;
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildTabs(theme, size),
-        Flexible(fit: FlexFit.loose, child: widget.views[selectedIndex])
-      ],
+      children: [_buildTabs(theme, size), Flexible(fit: FlexFit.loose, child: widget.views[selectedIndex])],
     );
   }
 
@@ -67,7 +62,7 @@ class _TabsState extends State<Tabs> {
       constraints: const BoxConstraints.expand(height: 42),
       decoration: BoxDecoration(
         borderRadius: defaultBorderRadius,
-        color: theme.backgroundColor,
+        color: theme.colorScheme.surface,
       ),
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -90,9 +85,7 @@ class _TabsState extends State<Tabs> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
-              children: enumerate(widget.labels)
-                  .map((label) => _buildTab(label, height: size.height))
-                  .toList(),
+              children: enumerate(widget.labels).map((label) => _buildTab(label, height: size.height)).toList(),
             )
           ],
         ),
@@ -100,11 +93,9 @@ class _TabsState extends State<Tabs> {
     );
   }
 
-  void _onSelectionChanged(int newIndex) =>
-      setState(() => selectedIndex = newIndex);
+  void _onSelectionChanged(int newIndex) => setState(() => selectedIndex = newIndex);
 
-  Widget _buildTab(IndexedValue<String> label, {required double height}) =>
-      SizedBox(
+  Widget _buildTab(IndexedValue<String> label, {required double height}) => SizedBox(
         width: _kTabWidth,
         height: height,
         child: TextButton(

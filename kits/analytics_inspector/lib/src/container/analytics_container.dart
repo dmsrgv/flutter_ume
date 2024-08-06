@@ -35,9 +35,7 @@ class AnalyticsContainer extends ChangeNotifier {
     if (activeFilter == null) {
       return pagedEvents;
     }
-    return pagedEvents
-        .where((event) => event.eventType == activeFilter)
-        .toList();
+    return pagedEvents.where((event) => event.eventType == activeFilter).toList();
   }
 
   void setActiveFilter(AEventType? type) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_ume/core/ui/global.dart';
 import 'package:flutter_ume_kit_perf/components/memory_info/memory_info_page.dart';
@@ -52,13 +51,11 @@ void main() {
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byWidgetPredicate(
-          (widget) => widget is Text && widget.data == 'Size'));
+      await tester.tap(find.byWidgetPredicate((widget) => widget is Text && widget.data == 'Size'));
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byWidgetPredicate(
-          (widget) => widget is Text && widget.data == 'Count'));
+      await tester.tap(find.byWidgetPredicate((widget) => widget is Text && widget.data == 'Count'));
       await tester.pump(Duration(seconds: 1));
       await tester.pumpAndSettle();
 

@@ -23,30 +23,25 @@ class HitTest {
       if (inverse == null) {
         return false;
       }
-      final Offset localPosition =
-          MatrixUtils.transformPoint(inverse, position!);
+      final Offset localPosition = MatrixUtils.transformPoint(inverse, position!);
 
       final List<DiagnosticsNode> children = object.debugDescribeChildren();
       for (int i = children.length - 1; i >= 0; i -= 1) {
         final DiagnosticsNode diagnostics = children[i];
-        assert(diagnostics != null);
-        if (diagnostics.style == DiagnosticsTreeStyle.offstage ||
-            diagnostics.value is! RenderObject) continue;
+        if (diagnostics.style == DiagnosticsTreeStyle.offstage || diagnostics.value is! RenderObject) continue;
         final RenderObject child = diagnostics.value as RenderObject;
         final Rect? paintClip = object.describeApproximatePaintClip(child);
         if (paintClip != null && !paintClip.contains(localPosition)) continue;
 
         final Matrix4 childTransform = transform.clone();
         object.applyPaintTransform(child, childTransform);
-        if (_hitTestHelper(hits, edgeHits, position, child, childTransform))
-          hit = true;
+        if (_hitTestHelper(hits, edgeHits, position, child, childTransform)) hit = true;
       }
 
       final Rect bounds = object.semanticBounds;
       if (bounds.contains(localPosition)) {
         hit = true;
-        if (!bounds.deflate(edgeHitMargin).contains(localPosition))
-          edgeHits.add(object);
+        if (!bounds.deflate(edgeHitMargin).contains(localPosition)) edgeHits.add(object);
       }
       if (hit) hits.add(object);
       return hit;
@@ -55,15 +50,13 @@ class HitTest {
     final List<RenderObject> regularHits = <RenderObject>[];
     final List<RenderObject> edgeHits = <RenderObject>[];
 
-    _hitTestHelper(regularHits, edgeHits, position, userRender,
-        userRender.getTransformTo(null));
+    _hitTestHelper(regularHits, edgeHits, position, userRender, userRender.getTransformTo(null));
     double _area(RenderObject object) {
       final Size size = object.semanticBounds.size;
       return size.width * size.height;
     }
 
-    regularHits
-        .sort((RenderObject a, RenderObject b) => _area(a).compareTo(_area(b)));
+    regularHits.sort((RenderObject a, RenderObject b) => _area(a).compareTo(_area(b)));
     final Set<RenderObject> hits = Set<RenderObject>();
     hits.addAll(edgeHits);
     hits.addAll(regularHits);

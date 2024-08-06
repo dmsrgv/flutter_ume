@@ -71,8 +71,7 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
       return Scaffold(
           body: _MemoryDetail(detail: detail, service: _memoryservice),
           appBar: PreferredSize(
-              child: AppBar(elevation: 0.0, title: Text(detail.className!)),
-              preferredSize: Size.fromHeight(44)));
+              child: AppBar(elevation: 0.0, title: Text(detail.className!)), preferredSize: Size.fromHeight(44)));
     }));
   }
 
@@ -82,8 +81,7 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
           child: Text("VM Info: ",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left)),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.left)),
       Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 15, right: 5),
@@ -92,8 +90,7 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 15, bottom: 10),
           child: Text("Memory Info: ",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left)),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.left)),
       Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 15, right: 5),
@@ -105,12 +102,8 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
               height: 24,
               width: 24,
               child: Checkbox(
-                  materialTapTargetSize: MaterialTapTargetSize.padded,
-                  value: _checked,
-                  onChanged: _hidePrivateClass)),
-          Padding(
-              padding: EdgeInsets.only(left: 5),
-              child: Text("Hide private class"))
+                  materialTapTargetSize: MaterialTapTargetSize.padded, value: _checked, onChanged: _hidePrivateClass)),
+          Padding(padding: EdgeInsets.only(left: 5), child: Text("Hide private class"))
         ]),
       ),
       Padding(padding: EdgeInsets.only(top: 10))
@@ -125,8 +118,7 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
         bottom: false,
         child: Scaffold(
           body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
                   bottom: PreferredSize(
@@ -134,9 +126,8 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
                         _DropButton(
                             title: "Size",
                             index: 0,
-                            stateChanged: (index, descending) => _memoryservice
-                                    .sort((d) => d.accumulatedSize, descending,
-                                        () {
+                            stateChanged: (index, descending) =>
+                                _memoryservice.sort((d) => d.accumulatedSize, descending, () {
                                   setState(() {
                                     _sortColumnIndex = index;
                                   });
@@ -146,9 +137,7 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
                             title: "Count",
                             index: 1,
                             stateChanged: (index, descending) =>
-                                _memoryservice.sort(
-                                    (d) => d.instancesAccumulated, descending,
-                                    () {
+                                _memoryservice.sort((d) => d.instancesAccumulated, descending, () {
                                   setState(() {
                                     _sortColumnIndex = index;
                                   });
@@ -172,22 +161,17 @@ class _MemoryWidgetState extends State<_MemoryWidget> {
                     return GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        _DetailModel detail = _DetailModel(
-                            stats.instancesAccumulated,
-                            stats.classRef!.id,
-                            stats.classRef!.name);
+                        _DetailModel detail =
+                            _DetailModel(stats.instancesAccumulated, stats.classRef!.id, stats.classRef!.name);
                         _enterDetailPage(detail);
                       },
                       child: _PerRow(
                         darkColor: index % 2 == 0,
                         widgets: [
-                          Text(
-                              "${_memoryservice.byteToString(stats.accumulatedSize!)}",
+                          Text("${_memoryservice.byteToString(stats.accumulatedSize!)}",
                               style: TextStyle(color: Colors.black87)),
-                          Text("${stats.instancesAccumulated}",
-                              style: TextStyle(color: Colors.black87)),
-                          Text("${stats.classRef!.name}",
-                              style: TextStyle(color: Colors.black87)),
+                          Text("${stats.instancesAccumulated}", style: TextStyle(color: Colors.black87)),
+                          Text("${stats.classRef!.name}", style: TextStyle(color: Colors.black87)),
                         ],
                       ),
                     );
@@ -247,20 +231,15 @@ class __DropButtonState extends State<_DropButton> {
       },
       child: Container(
           child: Row(children: [
-        Text(widget.title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-        widget.showArrow
-            ? Icon(_descending ? Icons.arrow_drop_down : Icons.arrow_drop_up)
-            : Container()
+        Text(widget.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        widget.showArrow ? Icon(_descending ? Icons.arrow_drop_down : Icons.arrow_drop_up) : Container()
       ], mainAxisSize: MainAxisSize.min)),
     );
   }
 }
 
 class _PerRow extends StatelessWidget {
-  const _PerRow(
-      {Key? key, this.widgets, this.customColor, this.darkColor = false})
-      : super(key: key);
+  const _PerRow({Key? key, this.widgets, this.customColor, this.darkColor = false}) : super(key: key);
 
   final List<Widget>? widgets;
   final bool darkColor;
@@ -270,18 +249,13 @@ class _PerRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
-      color: this.customColor ??
-          (this.darkColor
-              ? Colors.grey.withOpacity(0.2)
-              : Colors.grey.withOpacity(0.03)),
+      color: this.customColor ?? (this.darkColor ? Colors.grey.withOpacity(0.2) : Colors.grey.withOpacity(0.03)),
       child: Row(
           children: this
               .widgets!
               .map((e) => Expanded(
                   child: Align(
-                      child: Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: e),
+                      child: Padding(padding: const EdgeInsets.only(top: 10, bottom: 10), child: e),
                       alignment: Alignment.centerLeft)))
               .toList()),
     );
@@ -289,10 +263,7 @@ class _PerRow extends StatelessWidget {
 }
 
 class _MemoryDetail extends StatefulWidget {
-  _MemoryDetail({Key? key, required this.detail, required this.service})
-      : assert(service != null),
-        assert(detail != null),
-        super(key: key);
+  _MemoryDetail({Key? key, required this.detail, required this.service}) : super(key: key);
 
   final _DetailModel detail;
 
@@ -330,9 +301,7 @@ class __MemoryDetailState extends State<_MemoryDetail> {
     return Container(
       padding: EdgeInsets.only(top: 15, left: 15, right: 15),
       child: _textInfoO.isEmpty && _textInfoT.isEmpty
-          ? Center(
-              child: Text('The Object is Sentinel',
-                  style: TextStyle(fontSize: 20)))
+          ? Center(child: Text('The Object is Sentinel', style: TextStyle(fontSize: 20)))
           : SingleChildScrollView(
               child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,20 +310,14 @@ class __MemoryDetailState extends State<_MemoryDetail> {
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text("Property: ",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.left)),
-                Text(_textInfoO,
-                    textAlign: TextAlign.left, style: TextStyle(fontSize: 16)),
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.left)),
+                Text(_textInfoO, textAlign: TextAlign.left, style: TextStyle(fontSize: 16)),
                 Container(
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text("Function: ",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.left)),
-                Text(_textInfoT,
-                    textAlign: TextAlign.left, style: TextStyle(fontSize: 16)),
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.left)),
+                Text(_textInfoT, textAlign: TextAlign.left, style: TextStyle(fontSize: 16)),
               ],
             )),
     );

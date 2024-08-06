@@ -1,12 +1,8 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-import 'package:flutter_ume_kit_ui/util/binding_ambiguate.dart';
 import '../theme.dart';
 import '../utils.dart';
 import 'color_picker.dart';
@@ -65,7 +61,7 @@ class _ColorButtonState extends State<ColorButton> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     color = widget.color;
-    bindingAmbiguate(WidgetsBinding.instance)!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -76,7 +72,7 @@ class _ColorButtonState extends State<ColorButton> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    bindingAmbiguate(WidgetsBinding.instance)!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -85,9 +81,7 @@ class _ColorButtonState extends State<ColorButton> with WidgetsBindingObserver {
         onTapDown: (details) => _colorPick(context, details),
         child: Material(
           elevation: widget.elevation,
-          shape: widget.boxShape == BoxShape.circle
-              ? const CircleBorder()
-              : const RoundedRectangleBorder(),
+          shape: widget.boxShape == BoxShape.circle ? const CircleBorder() : const RoundedRectangleBorder(),
           child: Container(
             width: widget.size,
             height: widget.size,
@@ -102,8 +96,7 @@ class _ColorButtonState extends State<ColorButton> with WidgetsBindingObserver {
       );
 
   void _colorPick(BuildContext context, TapDownDetails details) async {
-    final selectedColor =
-        await showColorPicker(context, details.globalPosition);
+    final selectedColor = await showColorPicker(context, details.globalPosition);
     widget.onColorChanged(selectedColor);
   }
 
@@ -112,17 +105,15 @@ class _ColorButtonState extends State<ColorButton> with WidgetsBindingObserver {
 
     pickerOverlay = _buildPickerOverlay(offset, rootContext);
 
-    Overlay.of(rootContext)?.insert(pickerOverlay!);
+    Overlay.maybeOf(rootContext)?.insert(pickerOverlay!);
 
     return Future.value(widget.color);
   }
 
   OverlayEntry _buildPickerOverlay(Offset offset, BuildContext context) {
     final mq = MediaQuery.of(context);
-    final onLandscape =
-        mq.size.shortestSide < 600 && mq.orientation == Orientation.landscape;
-    final pickerPosition =
-        onLandscape ? offset : calculatePickerPosition(offset, mq.size);
+    final onLandscape = mq.size.shortestSide < 600 && mq.orientation == Orientation.landscape;
+    final pickerPosition = onLandscape ? offset : calculatePickerPosition(offset, mq.size);
 
     return OverlayEntry(
       maintainState: true,
@@ -196,11 +187,13 @@ class _ColorButtonState extends State<ColorButton> with WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    final keyboardTopPixels =
-        window.physicalSize.height - window.viewInsets.bottom;
+    final view = PlatformDispatcher.instance.implicitView;
 
-    final newBottom = (window.physicalSize.height - keyboardTopPixels) /
-        window.devicePixelRatio;
+    if (view == null) return;
+
+    final keyboardTopPixels = view.physicalSize.height - view.viewInsets.bottom;
+
+    final newBottom = (view.physicalSize.height - keyboardTopPixels) / view.devicePixelRatio;
 
     setState(() => bottom = newBottom);
     pickerOverlay?.markNeedsBuild();
@@ -242,13 +235,10 @@ class _DraggablePickerState extends State<_DraggablePicker> {
     final mq = MediaQuery.of(context);
     final size = mq.size;
 
-    final onLandscape =
-        mq.size.shortestSide < 600 && mq.orientation == Orientation.landscape;
+    final onLandscape = mq.size.shortestSide < 600 && mq.orientation == Orientation.landscape;
 
     return Positioned(
-      left: mq.isPhone
-          ? (size.width - pickerWidth) / 2
-          : offset.dx.clamp(0.0, size.width - pickerWidth),
+      left: mq.isPhone ? (size.width - pickerWidth) / 2 : offset.dx.clamp(0.0, size.width - pickerWidth),
       top: mq.isPhone
           ? onLandscape
               ? 0
@@ -259,6 +249,5 @@ class _DraggablePickerState extends State<_DraggablePicker> {
     );
   }
 
-  void _onDrag(DragUpdateDetails details) =>
-      setState(() => offset = offset + details.delta);
+  void _onDrag(DragUpdateDetails details) => setState(() => offset = offset + details.delta);
 }

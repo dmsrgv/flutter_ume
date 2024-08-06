@@ -120,15 +120,11 @@ class _DeviceInfoPanelState extends State<DeviceInfoPanel> {
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
                 'Device Info',
-                textScaleFactor: 1.15,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.red),
+                textScaler: TextScaler.linear(1.15),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.red),
               )),
           Container(
-            constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height - 150),
+            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height - 150),
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Text(_content,
@@ -137,8 +133,7 @@ class _DeviceInfoPanelState extends State<DeviceInfoPanel> {
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
                   ),
-                  strutStyle:
-                      const StrutStyle(forceStrutHeight: true, height: 2)),
+                  strutStyle: const StrutStyle(forceStrutHeight: true, height: 2)),
             ),
           ),
         ],

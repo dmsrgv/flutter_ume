@@ -50,9 +50,7 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
   /// since we've implemented the list with `findChildIndexCallback`.
   void _listener() {
     Future.microtask(() {
-      if (mounted &&
-          !context.debugDoingBuild &&
-          context.owner?.debugBuilding != true) {
+      if (mounted && !context.debugDoingBuild && context.owner?.debugBuilding != true) {
         setState(() {});
       }
     });
@@ -79,8 +77,7 @@ class AnalyticsPluggableState extends State<AnalyticsInspector> {
   }
 
   Widget _itemList(BuildContext context) {
-    final List<AEvent> events =
-        InspectorInstance.analyticsContainer.filteredEvents;
+    final List<AEvent> events = InspectorInstance.analyticsContainer.filteredEvents;
     final int length = events.length;
     if (length > 0) {
       return CustomScrollView(
@@ -224,11 +221,10 @@ class _ResponseCardState extends State<_EventCard> {
 
   AEvent get _event => widget.event;
 
-  DateTime get _startTime =>
-      DateTime.fromMillisecondsSinceEpoch(_event.startTimeMilliseconds);
+  DateTime get _startTime => DateTime.fromMillisecondsSinceEpoch(_event.startTimeMilliseconds);
 
   /// Status code for the [_response].
-  AEventType get _eventType => _event.eventType ?? AEventType.custom;
+  AEventType get _eventType => _event.eventType;
 
   Color get _eventTypeColor => switch (_eventType) {
         AEventType.ecommerce => Colors.red,
@@ -298,9 +294,7 @@ class _ResponseCardState extends State<_EventCard> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: _event.payload.entries
-                  .map((entry) => Text('${entry.key} : ${entry.value} \n'))
-                  .toList(),
+              children: _event.payload.entries.map((entry) => Text('${entry.key} : ${entry.value} \n')).toList(),
             ),
           );
         });
@@ -331,8 +325,7 @@ extension _DateTimeExtension on DateTime {
       '${'$minute'.padLeft(2, '0')}$separator'
       '${'$second'.padLeft(2, '0')}';
 
-  String dayMonthYear([String separator = '/']) =>
-      '${day.toString().padLeft(2, '0')}$separator'
+  String dayMonthYear([String separator = '/']) => '${day.toString().padLeft(2, '0')}$separator'
       '${month.toString().padLeft(2, '0')}$separator'
       '$year';
 }
@@ -353,8 +346,7 @@ class FilterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final activeType = InspectorInstance.analyticsContainer.activeFilter;
     return TextButton(
-        onPressed: () =>
-            InspectorInstance.analyticsContainer.setActiveFilter(type),
+        onPressed: () => InspectorInstance.analyticsContainer.setActiveFilter(type),
         child: Text(
           '$text',
           style: TextStyle(
@@ -362,7 +354,6 @@ class FilterButton extends StatelessWidget {
             color: activeType == type ? Colors.white : Colors.black,
           ),
         ),
-        style: TextButton.styleFrom(
-            backgroundColor: activeType == type ? color : null));
+        style: TextButton.styleFrom(backgroundColor: activeType == type ? color : null));
   }
 }

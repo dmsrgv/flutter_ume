@@ -1,11 +1,12 @@
 name: flutter_ume_kit_shared_preferences
 description: Kit for shared_preferences.
-homepage: https://github.com/cfug/flutter_ume_kit
+# homepage: https://github.com/cfug/flutter_ume_kit
 version: 0.0.2
+publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.13.0"
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.22.3"
 
 dependencies:
   flutter:

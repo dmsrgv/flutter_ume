@@ -42,8 +42,7 @@ class _HexColorFieldState extends State<HexColorField> {
 
     valueLength = widget.withAlpha ? 8 : 6;
 
-    final colorHexValue =
-        widget.withAlpha ? widget.color.hexARGB : widget.color.hexRGB;
+    final colorHexValue = widget.withAlpha ? widget.color.hexARGB : widget.color.hexRGB;
     _controller = TextEditingController(text: colorHexValue);
   }
 
@@ -51,8 +50,7 @@ class _HexColorFieldState extends State<HexColorField> {
   void didUpdateWidget(HexColorField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.color != widget.color) {
-      final colorHexValue =
-          widget.withAlpha ? widget.color.hexARGB : widget.color.hexRGB;
+      final colorHexValue = widget.withAlpha ? widget.color.hexARGB : widget.color.hexRGB;
       _controller.text = colorHexValue;
 
       if (widget.hexFocus.hasFocus) widget.hexFocus.nextFocus();
@@ -76,7 +74,7 @@ class _HexColorFieldState extends State<HexColorField> {
         child: TextField(
           controller: _controller,
           focusNode: widget.hexFocus,
-          style: textTheme.bodyText1?.copyWith(fontSize: 15),
+          style: textTheme.bodyMedium?.copyWith(fontSize: 15),
           maxLines: 1,
           autocorrect: false,
           enableInteractiveSelection: false,
