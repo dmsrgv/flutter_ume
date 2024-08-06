@@ -5,16 +5,15 @@ publish_to: none
 # homepage: https://github.com/bytedance/flutter_ume
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
   flutter: ">=3.13.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_ume:
-    path: ../..
-    # git:
-    #   url: https://github.com/dmsrgv/flutter_ume
+    git:
+      url: https://github.com/dmsrgv/flutter_ume
   # for Cyclop
   image: ^4.0.15
   quiver: ^3.2.1
