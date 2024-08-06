@@ -144,8 +144,10 @@ class _DebugPaintButtonState extends State<_DebugPaintButton> {
         child.markNeedsPaint();
         child.visitChildren(visitor);
       };
+
+      void _visitChild(RenderView view) => view.visitChildren(visitor);
       //TODO: be careful now. It's the unsafed way, cause of many root views. Should be replaced in future updates.
-      RendererBinding.instance.renderViews.forEach((e) => e.visitChildren(visitor));
+      RendererBinding.instance.renderViews.forEach(_visitChild);
     });
   }
 
@@ -159,8 +161,10 @@ class _DebugPaintButtonState extends State<_DebugPaintButton> {
         child.markNeedsPaint();
         child.visitChildren(visitor);
       };
+
+      void _visitChild(RenderView view) => view.visitChildren(visitor);
       //TODO: be careful now. It's the unsafed way, cause of many root views. Should be replaced in future updates.
-      RendererBinding.instance.renderViews.forEach((e) => e.visitChildren(visitor));
+      RendererBinding.instance.renderViews.forEach(_visitChild);
     });
   }
 }
