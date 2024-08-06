@@ -2,9 +2,10 @@ name: analytics_inspector
 description: Analytics Inspector kit for flutter_ume.
 version: 0.0.2
 publish_to: none
+# homepage: https://github.com/bytedance/flutter_ume
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
   flutter: ">=3.22.3"
 
 dependencies:
@@ -12,6 +13,8 @@ dependencies:
     sdk: flutter
   flutter_ume:
     path: ../..
+    # git:
+    #   url: https://github.com/dmsrgv/flutter_ume
 
 dev_dependencies:
   flutter_test:
